@@ -1,4 +1,4 @@
-# Worker Genius application
+# Worker Genius backend project for Worker Genius application
 This application is developed by Jean-Baptiste VESLEER and Sébastien NOBOUR.
 They are both student at My Digital School Paris 19e, France.
 
@@ -15,14 +15,15 @@ Are only showed job seekers, now called as candidates, who validated Symfony 5 b
 , then contact 
  
 ## What is the required env to use this application ?
-You need to use Node JS 12
+You need to use Node JS 10
 
 ## Which technologies are used ?
-ExpressJS for server, MongoDB for database, yarn as node package manager, twig as view engine templating
+ExpressJS for server, MongoDB for database, yarn as node package manager
 
 ## What is the application architecture ?
 The architecture is MVC type. Here is a representative tree of the project ( made with 'tree -I node_modules' command,
  given by brew install tree) :
+ 
 ```
 .
 ├── README.md
@@ -40,21 +41,14 @@ The architecture is MVC type. Here is a representative tree of the project ( mad
 │   ├── routes
 │   │   ├── index.js
 │   │   └── users.js
-│   └── views
-│       ├── admin
-│       ├── candidate
-│       ├── enterprise
-│       ├── error.twig
-│       ├── index.twig
-│       ├── layout.twig
-│       └── test_editor
 ├── package.json
 ├── test
 └── yarn.lock
 ```
+
 ## How to set up the app ?
 Get the project on your device from github repo by doing this:
-> git clone git@github.com:DaProclaima/worker_genius.git
+> git clone git@github.com:DaProclaima/worker_genius_backend.git
 
 Once you have NodeJS on your computer, simply go in the project directory and run a 
 > yarn install
@@ -64,7 +58,6 @@ Once you have NodeJS on your computer, simply go in the project directory and ru
  > mongod
 
 In an other tab:
- > yarn css-build
  > yarn start
 
 Want to stop the app ? Just type CTRL + C
