@@ -8,9 +8,9 @@
 // Certifications
 const NewCertification = require('./certifications/new')
 const ShowCertification = require('./certifications/show')
-// const ListCertification = require('./certifications/list')
+const ListCertification = require('./certifications/list')
 const EditCertification = require('./certifications/edit')
-// const DeleteCertification = require('./certifications/delete')
+const DeleteCertification = require('./certifications/delete')
 
 module.exports = {
   // users: {
@@ -22,8 +22,8 @@ module.exports = {
   certifications: {
     NewCertification,
     ShowCertification,
-    EditCertification
-    // DeleteCertification,
-    // ListCertification
+    EditCertification,
+    DeleteCertification,
+    ListCertification
   }
 }

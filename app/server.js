@@ -115,8 +115,8 @@ class Server {
     new routes.certifications.NewCertification(this.app, this.connect)
     new routes.certifications.ShowCertification(this.app, this.connect)
     new routes.certifications.EditCertification(this.app, this.connect)
-    // new routes.certifications.DeleteCertification(this.app, this.connect)
-    // new routes.certifications.ListCertification(this.app, this.connect)
+    new routes.certifications.DeleteCertification(this.app, this.connect)
+    new routes.certifications.ListCertification(this.app, this.connect)
 
     this.app.use((_, res) => {
       res.status(404).json({
