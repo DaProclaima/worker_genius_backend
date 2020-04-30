@@ -29,7 +29,7 @@ const CertificationSchema = new mongoose.Schema({
 })
 
 CertificationSchema.methods.generatePicture = async function () {
-  this.picture = '../../assets/images/code_js.jpg'
+  this.picture = '../../resources/images/code_js.jpg'
   return this
 }
 CertificationSchema.methods.generateUpdated = async function () {

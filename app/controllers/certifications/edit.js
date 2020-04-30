@@ -32,12 +32,9 @@ class Edit {
         }
       }, {
         new: true
-      }).then(certification => {
-        // this.certificationModel.pre('save', function () {
-        //   Certification.generateSlug()
-        //   Certification.generateUpdated()
-        // })
-
+      }).then(certification => {  
+        certification.generateSlug()
+        certification.generateUpdated()
         res.status(200).json(certification || {})
       }).catch(err => {
         res.status(500).json({
