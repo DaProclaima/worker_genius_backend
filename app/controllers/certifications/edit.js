@@ -34,8 +34,8 @@ class Edit {
       }, {
         new: true
       }).then(certification => {  
-        certification.generateSlug()
-        certification.generateUpdated()
+        certification.setSlug()
+        certification.setLastUpdate()
         res.status(200).json(certification || {})
       }).catch(err => {
         res.status(500).json({
