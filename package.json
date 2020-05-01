@@ -11,7 +11,7 @@
     "build": "yarn install && yarn start",
     "start": "eslint .eslintrc.js .eslintignore ./app/ index.js  && node index.js",
     "dev": "eslint .eslintrc.js .eslintignore ./app/ index.js && nodemon index.js",
-    "test": "mocha",
+    "test": "nyc  --reporter=html --reporter=text mocha",
     "lint": "eslint .eslintrc.js .eslintignore ./app/ index.js"
   },
   "dependencies": {
@@ -43,7 +43,8 @@
     "jquery": "^3.4.1",
     "mocha": "^7.1.2",
     "node-sass": "^4.13.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.1"
   },
   "description": "This application is the backend part of Worker Genius, developed by Jean-Baptiste VESLEER and Sébastien NOBOUR.\r They are both student at My Digital School Paris 19e, France.",
   "bugs": {
