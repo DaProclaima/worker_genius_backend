@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
-const mixed = Schema.Types.Mixed
+const Mixed = Schema.Types.Mixed
 const generateSlug = require('../helpers/generateSlug')
 
 const CertificationSchema = new mongoose.Schema({
@@ -10,13 +10,13 @@ const CertificationSchema = new mongoose.Schema({
   timeout: Number,
   description: String,
   Id: ObjectId,
-  project: mixed,
+  project: Mixed,
   prerequisites: [String],
   picture: String,
   languages: [String],
   creator: String, // will take the Id of the creator,
   creationDate: { type: Date, default: Date.now },
-  updated: Date
+  last_update: Date
 }, {
   collection: 'certifications', 
   minimize: false, 
@@ -28,18 +28,22 @@ const CertificationSchema = new mongoose.Schema({
   }
 })
 
-CertificationSchema.methods.generatePicture = async function () {
+CertificationSchema.methods.setPicture = async function () {
   this.picture = '../../resources/images/code_js.jpg'
   return this
 }
-CertificationSchema.methods.generateUpdated = async function () {
+CertificationSchema.methods.setLastUpdate = async function () {
   this.updated = Date.now
   return this
 }
 
-CertificationSchema.methods.generateSlug = function () {
+CertificationSchema.methods.setSlug = function () {
   this.slug = generateSlug(this.title)
   return this
+}
+
+CertificationSchema.methods.getSlug = function () {
+  return this.slug 
 }
 
 module.exports = CertificationSchema
