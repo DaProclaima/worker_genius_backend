@@ -63,7 +63,6 @@ JobOfferSchema.methods.getId = function () {
   return this.id
 }
 
-
 JobOfferSchema.methods.setSlug = function () {
   this.slug = generateSlug(this.getFullName())
   return this
@@ -172,7 +171,7 @@ JobOfferSchema.methods.setCompanyName = function (companyName) {
   }
 }
 
-JobOfferSchema.methods.getCompanyName= function () {
+JobOfferSchema.methods.getCompanyName = function () {
   return this.company_name 
 }
 

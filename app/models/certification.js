@@ -73,7 +73,7 @@ CertificationSchema.methods.getTimeout = function () {
   return this.timeout
 }
 
-CertificationSchema.methods.methods.setDescription = function (description) {
+CertificationSchema.methods.setDescription = function (description) {
   try {
     if (typeof description === 'string') {
       this.description = description
@@ -109,7 +109,7 @@ CertificationSchema.methods.addOnePrerequisite = function (prerequisite) {
   }
 }
 
-CertificationSchema.methods.removeOnePrerequisite = function (prerequisite) {
+CertificationSchema.methods.OnePrerequisite = function (prerequisite) {
   let index = this.list_prerequisites.findIndex(prerequisite)
   this.lists_prerequisites.splice(index)
   return this
@@ -173,7 +173,6 @@ CertificationSchema.methods.setLastUpdate = function () {
   this.updated = Date.now
   return this
 }
-
 
 CertificationSchema.methods.getLastUpdate = function () {
   return this.last_update 
