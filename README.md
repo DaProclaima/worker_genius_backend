@@ -67,6 +67,7 @@ Want to stop the app ? Just type CTRL + C
 ### Explanation
 This API exposes these entities:
 - certification
+- user
 
 To fetch an item, it is decided to use a slug which is a actually a title for url as so : the-title-of-my-object.
 Better not use an Id which is a bad practice for SEO and UX.

@@ -88,7 +88,7 @@ class Server {
    */
   routes () {
     // Users
-    // new routes.users.Create(this.app, this.connect)
+    new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
     // new routes.users.Show(this.app, this.connect)
     // new routes.users.Update(this.app, this.connect)
     // new routes.users.Delete(this.app, this.connect)
