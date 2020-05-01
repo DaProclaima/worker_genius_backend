@@ -32,7 +32,7 @@ CertificationSchema.methods.setPicture = async function () {
   this.picture = '../../resources/images/code_js.jpg'
   return this
 }
-CertificationSchema.methods.setLastUpdate = async function () {
+CertificationSchema.methods.setLastUpdate = function () {
   this.updated = Date.now
   return this
 }

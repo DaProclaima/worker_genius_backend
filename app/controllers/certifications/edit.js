@@ -33,10 +33,10 @@ class Edit {
         }
       }, {
         new: true
-      }).then(certification => {  
-        certification.setSlug()
-        certification.setLastUpdate()
-        res.status(200).json(certification || {})
+      }).then(model => {  
+        model.setSlug()
+        model.setLastUpdate()
+        res.status(200).json(model || {})
       }).catch(err => {
         res.status(500).json({
           'code': 500,

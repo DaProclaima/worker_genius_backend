@@ -11,9 +11,9 @@ class New {
     this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certifications', Certifications)
     // this.UserModel = connect.model('User', User)
-
     this.run()
   }
+
   /**
    * middleware
    */
