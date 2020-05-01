@@ -101,6 +101,13 @@ class Server {
     new routes.certifications.DeleteCertification(this.app, this.connect, this.apiPrefix)
     new routes.certifications.ListCertification(this.app, this.connect, this.apiPrefix)
 
+    // jobOffers
+    new routes.jobOffers.NewJobOffer(this.app, this.connect, this.apiPrefix)
+    // new routes.jobOffers.ShowjobOffer(this.app, this.connect, this.apiPrefix)
+    // new routes.jobOffers.EditjobOffer(this.app, this.connect, this.apiPrefix)
+    // new routes.jobOffers.DeletejobOffer(this.app, this.connect, this.apiPrefix)
+    // new routes.jobOffers.ListjobOffer(this.app, this.connect, this.apiPrefix)
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,

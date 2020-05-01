@@ -6,16 +6,16 @@ const generateSlug = require('../helpers/generateSlug')
 
 const CertificationSchema = new mongoose.Schema({
   title: String,
+  Id: ObjectId,
   slug: String,
   timeout: Number,
   description: String,
-  Id: ObjectId,
   project: Mixed,
-  prerequisites: [String],
+  list_prerequisites: [String],
   picture: String,
-  languages: [String],
-  creator: String, // will take the Id of the creator,
-  creationDate: { type: Date, default: Date.now },
+  list_languages: [String],
+  creatorId: [ObjectId], // will take the Id of the creator,
+  creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
   collection: 'certifications', 
@@ -28,13 +28,24 @@ const CertificationSchema = new mongoose.Schema({
   }
 })
 
-CertificationSchema.methods.setPicture = async function () {
-  this.picture = '../../resources/images/code_js.jpg'
-  return this
+CertificationSchema.methods.setTitle = function (title) {
+  try {
+    if (title === 'string') {
+      this.title = title
+      return this
+    }
+    throw new Error('The title is not a string')
+  } catch (error) {
+    console.error(error)
+  }
 }
-CertificationSchema.methods.setLastUpdate = function () {
-  this.updated = Date.now
-  return this
+
+CertificationSchema.methods.getTitle = function () {
+  return this.title
+}
+
+CertificationSchema.methods.getId = function () {
+  return this.id
 }
 
 CertificationSchema.methods.setSlug = function () {
@@ -44,6 +55,128 @@ CertificationSchema.methods.setSlug = function () {
 
 CertificationSchema.methods.getSlug = function () {
   return this.slug 
+}
+
+CertificationSchema.methods.setTimeout = function (timeout) {
+  try {
+    if (typeof timeout === 'number') {
+      this.timeout = timeout
+      return this
+    }
+    throw new Error('The salary per year is not a number')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+CertificationSchema.methods.getTimeout = function () {
+  return this.timeout
+}
+
+CertificationSchema.methods.methods.setDescription = function (description) {
+  try {
+    if (typeof description === 'string') {
+      this.description = description
+      return this
+    }
+    throw new Error('The description is not a string')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+CertificationSchema.methods.getDescription = function () {
+  return this.description
+}
+
+CertificationSchema.methods.setProject = function (project) {
+  this.project = project
+}
+
+CertificationSchema.methods.getProject = function () {
+  return this.project
+}
+
+CertificationSchema.methods.addOnePrerequisite = function (prerequisite) {
+  try {
+    if (typeof prerequisite === 'string') {
+      this.list_prerequisites.push({prerequisite})
+      return this
+    }
+    throw new Error('The prerequisite is not a string')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+CertificationSchema.methods.removeOnePrerequisite = function (prerequisite) {
+  let index = this.list_prerequisites.findIndex(prerequisite)
+  this.lists_prerequisites.splice(index)
+  return this
+}
+
+CertificationSchema.methods.getListPrerequisites = function () {
+  return this.list_prerequisites
+}
+
+CertificationSchema.methods.addOneLanguage = function (language) {
+  try {
+    if (typeof language === 'string') {
+      this.list_languages.push({language})
+      return this
+    }
+    throw new Error('The language is not a string')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+CertificationSchema.methods.removeOneLanguage = function (language) {
+  let index = this.list_languages.findIndex(language)
+  this.list_language.splice(index)
+}
+
+CertificationSchema.methods.getListLanguages = function () {
+  return this.list_languages
+}
+
+CertificationSchema.methods.setCreatorId = function (id) {
+  // TODO try catch if Id exists then...
+  this.creatorId = id
+}
+
+CertificationSchema.methods.getCreatorId = function () {
+  return this.creatorId
+}
+
+CertificationSchema.methods.getCreationDate = function () {
+  return this.creation_date
+}
+
+CertificationSchema.methods.setPicture = function (picture) {
+  try {
+    if (typeof picture === 'string') {
+      this.picture = picture
+      return this
+    }
+    throw new Error('The picture url is not a string')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+CertificationSchema.methods.getPicture = function () {
+  return this.picture
+}
+
+CertificationSchema.methods.setLastUpdate = function () {
+  this.updated = Date.now
+  return this
+}
+
+
+CertificationSchema.methods.getLastUpdate = function () {
+  return this.last_update 
 }
 
 module.exports = CertificationSchema
