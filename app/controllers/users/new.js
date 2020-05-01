@@ -11,6 +11,7 @@ class Create {
     this.UserModel = connect.model('User', User)
     this.run()
   }
+
   /**
    * middleware
    */
@@ -21,6 +22,7 @@ class Create {
         // await userModel.generateAuthToken()
         userModel.setSlug()
         res.status(201).send({userModel})
+        userModel.save()
       } catch (err) {
         res.status(500).json({
           'code': 500,
