@@ -85,7 +85,7 @@ We are going to perform a complete flow for a collection of certifications : cre
 
 #### Create a certification
 - 1. Open Postman, open a POST request.
-- 2. In the POST request, write this url: http://localhost/3010/api/v1/entity/new/ .
+- 2. In the POST request, write this url: http://localhost/3010/api/v1/certification/new/ .
 - 3. In the request section, choose body tab, then below raw format, and a bit farther at right select JSON.
 - 4. Now, let us place the body content of our new certification object. In the window opened with body tab, write the content as below:
 ```
@@ -126,8 +126,8 @@ You created your first certification. Create two others so that we perform a lis
 
 #### Show a certification
 - 1. Open Postman, open a GET request.
-- 2. In the GET request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/entity/show/javascript-data-structures .
-- 3. The API response should give this:
+- 2. In the GET request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/certification/show/javascript-data-structures .
+- 3. Now, push on blue send button. The API response should give this:
 ```
 {
     "prerequisites": [],
@@ -147,15 +147,15 @@ You created your first certification. Create two others so that we perform a lis
 
 #### Edit a certification
 - 1. Open Postman, open a POST request.
-- 2. In the PUT request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/entity/edit/javascript-data-structures .
-- 4. What do you want to change in this certification ? Maybe his title ? Ok ! But it will change his slug too ! Let us do it. In the window of body tab, type this:
+- 2. In the PUT request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/certification/edit/javascript-data-structures .
+- 3. What do you want to change in this certification ? Maybe his title ? Ok ! But it will change his slug too ! Let us do it. In the window of body tab, type this:
 ```
 {
     "title": "Javascript: array structures",
     "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours"
 }
 ```
-- 3. The API response should give this in the body:
+- 4. Now, push on blue send button. The API response should give this in the body:
 ```
 {
     "prerequisites": [],
@@ -171,3 +171,30 @@ You created your first certification. Create two others so that we perform a lis
 }
 ```
 
+#### List all certifications
+- 1. Open Postman, open a GET request.
+- 2. In the GET request, just type this url: http://localhost/3010/api/v1/certification/list .
+- 3. Now, push on blue send button. You should have a list of all certifications recorded in the mongoDB collection.
+
+#### Delete one certification
+- 1. Open Postman, open a GET request.
+- 2. In the DELETE request, just type this url: http://localhost/3010/api/v1/certification/delete/javascript-array-structures .
+- 3. Now, push on blue send button. The API response should return :
+```
+{
+    "prerequisites": [],
+    "languages": [
+        "javascript"
+    ],
+    "title": "Javascript: array structures",
+    "timeout": 72000,
+    "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours",
+    "project": "n/a",
+    "creationDate": "2020-05-01T08:13:53.635Z",
+    "picture": "../../resources/images/code_js.jpg",
+    "slug": "javascript-array-structures",
+    "id": "5eabda417edbb26739165a36"
+}
+```
+
+- 4. Now if you make a call to the list api, you should have one result in less than the previous. The certification is deleted.
