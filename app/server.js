@@ -14,6 +14,7 @@ class Server {
   constructor () {
     this.app = express()
     this.port = 3010
+    this.apiPrefix = '/api/v1'
   }
 
   // fecthArticle () {
@@ -75,27 +76,8 @@ class Server {
    * middleware
    */
   middleware () {
-    // this.app.set('view engine', '.hbs')
-    // this.app.use('/public', express.static(path.join(__dirname, '../assets')))
-    // this.app.set('views', path.join(__dirname, '../views'))
-    // this.app.engine('.hbs', exphbs({
-    //   helpers: {
-    //     dateFormat: require('handlebars-dateformat')
-    //   },
-    //   extname: '.hbs',
-    //   defaultLayout: 'main',
-    //   layoutsDir: path.join(__dirname, '../views/layouts/'),
-    //   partialsDir: path.join(__dirname, '../views/partials/')
-    // }))
-
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
-
-    // this.app.get('/home', async (_, res) => {
-    //   // const articles = await this.fecthArticle()
-    //   const title = 'Bienvenue !'
-    //   res.render('home', { title: title })
-    // })
 
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
@@ -112,11 +94,11 @@ class Server {
     // new routes.users.Delete(this.app, this.connect)
 
     // certifications
-    new routes.certifications.NewCertification(this.app, this.connect)
-    new routes.certifications.ShowCertification(this.app, this.connect)
-    new routes.certifications.EditCertification(this.app, this.connect)
-    new routes.certifications.DeleteCertification(this.app, this.connect)
-    new routes.certifications.ListCertification(this.app, this.connect)
+    new routes.certifications.NewCertification(this.app, this.connect, this.apiPrefix)
+    new routes.certifications.ShowCertification(this.app, this.connect, this.apiPrefix)
+    new routes.certifications.EditCertification(this.app, this.connect, this.apiPrefix)
+    new routes.certifications.DeleteCertification(this.app, this.connect, this.apiPrefix)
+    new routes.certifications.ListCertification(this.app, this.connect, this.apiPrefix)
 
     this.app.use((_, res) => {
       res.status(404).json({

@@ -7,8 +7,9 @@ const Certification = require('../../models/certification')
  * @class
  */
 class Edit {
-  constructor (app, connect) {
+  constructor (app, connect, apiPrefix) {
     this.app = app
+    this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certification', Certification)
     this.run()
   }
@@ -17,7 +18,7 @@ class Edit {
    * middleware
    */
   middleware () {
-    this.app.put('/api/v1/certification/edit/:slug', (req, res) => {
+    this.app.put(`${this.apiPrefix}/certification/edit/:slug`, (req, res) => {
       const { slug } = req.params
       const { body } = req
 

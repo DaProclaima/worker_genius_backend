@@ -62,3 +62,111 @@ In an other tab:
 
 Want to stop the app ? Just type CTRL + C
 
+## How to use this RESTful HTTP API
+
+### Explanation
+This API exposes these entities:
+- certification
+
+To fetch an item, it is decided to use a slug which is a actually a title for url as so : the-title-of-my-object.
+Better not use an Id which is a bad practice for SEO and UX.
+
+To perform a CRUD on these entities, you need to use this syntax:
+
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/entity/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/entity/edit/:slug
+- SHOW an object with GET http method : http://localhost/3010/api/v1/entity/show/:slug
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/entity/delete/:slug
+- LIST an object with GET http method : http://localhost/3010/api/v1/entity/list
+
+### Example of use
+Let us take an example and use [POSTMAN REST Client application](https://www.postman.com/), and use [Compass](https://www.mongodb.com/products/compass) for MongoDB .
+We are going to perform a complete flow for a collection of certifications : creation, show, edit, delete, list
+
+#### Create a certification
+- 1. Open Postman, open a POST request.
+- 2. In the POST request, write this url: http://localhost/3010/api/v1/entity/new/ .
+- 3. In the request section, choose body tab, then below raw format, and a bit farther at right select JSON.
+- 4. Now, let us place the body content of our new certification object. In the window opened with body tab, write the content as below:
+```
+{
+	"title": "Javascript: data structures",
+	"timeout": 72000,
+	"description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours",
+	"project": "n/a",
+	"prerequisite": [
+		"ECMAScript 15 Javascript knowledge"
+	],
+	"languages": [
+		"javascript"	
+	]
+}
+```
+- 5. Now, push on blue send button, at right from the url. Postman sends the request to the API which treats it and should return under the body tab the response. The response from the API should be like this: 
+```
+{
+    "certificationModel": {
+        "prerequisites": [],
+        "languages": [
+            "javascript"
+        ],
+        "title": "Javascript: data structures",
+        "timeout": 72000,
+        "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours",
+        "project": "n/a",
+        "creationDate": "2020-05-01T08:13:53.635Z",
+        "picture": "../../resources/images/code_js.jpg",
+        "slug": "javascript-data-structures",
+        "id": "5eabda417edbb26739165a36"
+    }
+}
+```
+
+You created your first certification. Create two others so that we perform a list displaying all certifications in the collection. But first, let us show the certification.
+
+#### Show a certification
+- 1. Open Postman, open a GET request.
+- 2. In the GET request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/entity/show/javascript-data-structures .
+- 3. The API response should give this:
+```
+{
+    "prerequisites": [],
+    "languages": [
+        "javascript"
+    ],
+    "title": "Javascript: data structures",
+    "timeout": 72000,
+    "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours",
+    "project": "n/a",
+    "creationDate": "2020-05-01T08:13:53.635Z",
+    "picture": "../../resources/images/code_js.jpg",
+    "slug": "javascript-data-structures",
+    "id": "5eabda417edbb26739165a36"
+}
+```
+
+#### Edit a certification
+- 1. Open Postman, open a POST request.
+- 2. In the PUT request. Do you remember the slug attribute we got once our certification was created? It is 'javascript-data-structures'. So type in the url form this: http://localhost/3010/api/v1/entity/edit/javascript-data-structures .
+- 4. What do you want to change in this certification ? Maybe his title ? Ok ! But it will change his slug too ! Let us do it. In the window of body tab, type this:
+```
+{
+    "title": "Javascript: array structures",
+    "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours"
+}
+```
+- 3. The API response should give this in the body:
+```
+{
+    "prerequisites": [],
+    "languages": null,
+    "title": "Javascript: array structures",
+    "timeout": null,
+    "description": "Javascript certification. Validate your javascript skills. Test timeout of 2 hours",
+    "project": null,
+    "creationDate": "2020-04-29T15:52:33.014Z",
+    "picture": "../../assets/images/code_js.jpg",
+    "slug": "javascript-array-structures",
+    "id": "5ea9a2c1a18bb73be4bfc2f0"
+}
+```

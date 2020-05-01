@@ -5,9 +5,10 @@ const Certifications = require('../../models/certification')
  * Create
  * @class
  */
-class Create {
-  constructor (app, connect) {
+class New {
+  constructor (app, connect, apiPrefix) {
     this.app = app
+    this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certifications', Certifications)
     // this.UserModel = connect.model('User', User)
 
@@ -17,7 +18,7 @@ class Create {
    * middleware
    */
   middleware () {
-    this.app.post('/api/v1/certification/create', async (req, res) => {
+    this.app.post(`${this.apiPrefix}/certification/new`, async (req, res) => {
       try {
         const certificationModel = new this.CertificationModel(req.body)
         await certificationModel.generatePicture()
@@ -40,4 +41,4 @@ class Create {
   }
 }
 
-module.exports = Create
+module.exports = New

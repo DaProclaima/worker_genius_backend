@@ -6,8 +6,9 @@ const Certification = require('../../models/certification')
  * @class
  */
 class Show {
-  constructor (app, connect) {
+  constructor (app, connect, apiPrefix) {
     this.app = app
+    this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certification', Certification)
     this.run()
   }
@@ -16,7 +17,7 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get('/api/v1/certification/show/:slug', (req, res) => {
+    this.app.get(`${this.apiPrefix}/certification/show/:slug`, (req, res) => {
       const { slug } = req.params
       let query = this.CertificationModel.where({slug: slug})
       query.findOne(function (_, certification) {

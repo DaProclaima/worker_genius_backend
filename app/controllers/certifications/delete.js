@@ -6,8 +6,9 @@ const Certification = require('../../models/certification')
  * @class
  */
 class Delete {
-  constructor (app, connect) {
+  constructor (app, connect, apiPrefix) {
     this.app = app
+    this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certification', Certification)
     this.run()
   }
@@ -15,7 +16,7 @@ class Delete {
    * middleware
    */
   middleware () {
-    this.app.delete('/api/v1/certification/delete/:slug', (req, res) => {
+    this.app.delete(`${this.apiPrefix}/certification/delete/:slug`, (req, res) => {
       try {
         const { slug } = req.params
         this.CertificationModel.findOneAndDelete({slug: slug})

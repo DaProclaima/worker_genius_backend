@@ -6,8 +6,9 @@ const Certification = require('../../models/certification')
  * @class
  */
 class List {
-  constructor (app, connect) {
+  constructor (app, connect, apiPrefix) {
     this.app = app
+    this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certification', Certification)
     this.run()
   }
@@ -16,7 +17,7 @@ class List {
    * middleware
    */
   middleware () {
-    this.app.get('/api/v1/certification/list', (req, res) => {
+    this.app.get(`${this.apiPrefix}/certification/list`, (_, res) => {
       try {
         this.CertificationModel.find({}, function (err, result) {
           if (err) {
