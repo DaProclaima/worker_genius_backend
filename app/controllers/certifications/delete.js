@@ -20,8 +20,8 @@ class Delete {
       try {
         const { slug } = req.params
         this.CertificationModel.findOneAndDelete({slug: slug})
-          .then(certification => {
-            res.status(200).json(certification || {})
+          .then(model => {
+            res.status(200).json(model || {})
           })
       } catch (err) {
         res.status(500).json({
