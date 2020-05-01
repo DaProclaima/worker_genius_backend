@@ -9,10 +9,10 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn install && yarn start",
-    "start": "eslint .eslintrc.js .eslintignore ./app/ index.js  && node index.js",
-    "dev": "eslint .eslintrc.js .eslintignore ./app/ index.js && nodemon index.js",
+    "start": "yarn lint  && node index.js",
+    "dev": "yarn lint && nodemon index.js",
     "test": "nyc  --reporter=html --reporter=text mocha",
-    "lint": "eslint .eslintrc.js .eslintignore ./app/ index.js"
+    "lint": "eslint --fix .eslintrc.js .eslintignore ./app/ index.js"
   },
   "dependencies": {
     "body-parser": "1.18.3",
