@@ -1,6 +1,7 @@
 const Certification = require('../../models/certification')
 // const JWT = require('../../jwt.js')
 // const jwt = new JWT()
+
 /**
  * Create
  * @class

@@ -11,9 +11,9 @@ class New {
     this.apiPrefix = apiPrefix
     this.CertificationModel = connect.model('Certifications', Certifications)
     // this.UserModel = connect.model('User', User)
-
     this.run()
   }
+
   /**
    * middleware
    */
@@ -21,8 +21,8 @@ class New {
     this.app.post(`${this.apiPrefix}/certification/new`, async (req, res) => {
       try {
         const certificationModel = new this.CertificationModel(req.body)
-        await certificationModel.generatePicture()
-        certificationModel.generateSlug()
+        await certificationModel.setPicture()
+        certificationModel.setSlug()
         await res.status(201).send({certificationModel})
         certificationModel.save()
       } catch (err) {

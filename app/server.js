@@ -88,10 +88,11 @@ class Server {
    */
   routes () {
     // Users
-    // new routes.users.Create(this.app, this.connect)
-    // new routes.users.Show(this.app, this.connect)
-    // new routes.users.Update(this.app, this.connect)
-    // new routes.users.Delete(this.app, this.connect)
+    new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
+    new routes.users.ShowUser(this.app, this.connect, this.apiPrefix)
+    new routes.users.EditUser(this.app, this.connect, this.apiPrefix)
+    new routes.users.DeleteUser(this.app, this.connect, this.apiPrefix)
+    new routes.users.ListUser(this.app, this.connect, this.apiPrefix)
 
     // certifications
     new routes.certifications.NewCertification(this.app, this.connect, this.apiPrefix)

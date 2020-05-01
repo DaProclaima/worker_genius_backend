@@ -1,29 +1,28 @@
 const User = require('../../models/user')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
 
 /**
  * Create
  * @class
  */
-class Delete {
+class Create {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
     this.UserModel = connect.model('User', User)
     this.run()
   }
+
   /**
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/user/delete/:slug`, (req, res) => {
+    this.app.post(`${this.apiPrefix}/user/new`, async (req, res) => {
       try {
-        const { slug } = req.params
-        this.UserModel.findOneAndDelete({slug: slug})
-          .then(model => {
-            res.status(200).json(model || {})
-          })
+        const userModel = new this.UserModel(req.body)
+        // await userModel.generateAuthToken()
+        userModel.setSlug()
+        res.status(201).send({userModel})
+        userModel.save()
       } catch (err) {
         res.status(500).json({
           'code': 500,
@@ -32,7 +31,6 @@ class Delete {
       }
     })
   }
-
   /**
    * run
    */
@@ -41,4 +39,4 @@ class Delete {
   }
 }
 
-module.exports = Delete
+module.exports = Create
