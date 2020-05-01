@@ -90,7 +90,7 @@ class Server {
     // Users
     new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
     new routes.users.ShowUser(this.app, this.connect, this.apiPrefix)
-    // new routes.users.Update(this.app, this.connect)
+    new routes.users.EditUser(this.app, this.connect, this.apiPrefix)
     // new routes.users.Delete(this.app, this.connect)
 
     // certifications

@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
   list_replied_job: [ObjectId],
   list_posted_job: [ObjectId],
   creationDate: { type: Date, default: Date.now },
-  updated: Date
+  last_update: Date
 
 }, {
   collection: 'users', 
@@ -49,6 +49,11 @@ UserSchema.methods.getSlug = function () {
 
 UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
+}
+
+UserSchema.methods.setLastUpdate = function () {
+  this.updated = Date.now
+  return this
 }
 
 // UserSchema.methods.generateAuthToken = async function () {
