@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
   slug: String,
   profile_consultation_counter: Number,
   profile_picture: String,
-  list_skills: [String], // TODO: will become a model ( creation date, title, id, list_has_candidates)
+  list_skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
   list_certifications: [ObjectId],
   list_replied_job: [ObjectId],
   list_posted_job: [ObjectId],
@@ -210,15 +210,6 @@ UserSchema.methods.getProfilePicture = function () {
   return this.profile_picture
 }
 
-UserSchema.methods.setLastUpdate = function () {
-  this.last_update = Date.now
-  return this
-}
-
-UserSchema.methods.getLastUpdate = function () {
-  return this.last_update
-}
-
 UserSchema.methods.addSkill = function (skill) {
   if (skill === assertType.checkString(skill, 'Skill')) {
     if (this.list_skills.indexOf(skill) < 1) {
@@ -244,8 +235,86 @@ UserSchema.methods.getListSkills = function () {
   return this.list_skills
 }
 
+UserSchema.methods.addCertification = function (certification) {
+  // TODO: if certification exists then...
+  if (this.list_certifications.indexOf(certification) < 1) {
+    this.list_certifications.push(certification)
+    return this
+  }
+}
+
+UserSchema.methods.removeCertification = function (certification) {
+  // TODO: check if certification exists then...    
+  let index = this.list_certifications.indexOf(certification)
+  if (index !== null) {
+    this.list_certifications.splice(index)
+    return this
+  } else {
+    console.error(new Error('The given certification to remove does not exist.'))
+  }
+}
+
+UserSchema.methods.getListCertifications = function () {
+  return this.list_certifications
+}
+
+UserSchema.methods.addPostedJob = function (job) {
+  // TODO: if job offer exists then... else error
+  if (this.list_posted_job.indexOf(job) < 1) {
+    this.list_posted_job.push(job)
+    return this
+  }
+}
+
+UserSchema.methods.removePostedJob = function (job) {
+  // TODO: check if certification exists then...    
+  let index = this.list_posted_job.indexOf(job)
+  if (index !== null) {
+    this.list_posted_job.splice(index)
+    return this
+  } else {
+    console.error(new Error('The given posted job offer to remove does not exist.'))
+  }
+}
+
+UserSchema.methods.getListPostedJobs = function () {
+  return this.list_posted_job
+}
+
+UserSchema.methods.addRepliedJob = function (job) {
+  // TODO: if job offer exists then... else error
+  if (this.list_replied_job.indexOf(job) < 1) {
+    this.list_replied_job.push(job)
+    return this
+  }
+}
+
+UserSchema.methods.removeRepliedJob = function (job) {
+  // TODO: check if certification exists then...    
+  let index = this.list_replied_job.indexOf(job)
+  if (index !== null) {
+    this.list_replied_job.splice(index)
+    return this
+  } else {
+    console.error(new Error('The given replied job offer to remove does not exist.'))
+  }
+}
+
+UserSchema.methods.getListRepliedJobs = function () {
+  return this.list_replied_job
+}
+
 UserSchema.methods.getCreationDate = function () {
   return this.creation_date
+}
+
+UserSchema.methods.setLastUpdate = function () {
+  this.last_update = Date.now
+  return this
+}
+
+UserSchema.methods.getLastUpdate = function () {
+  return this.last_update
 }
 
 UserSchema.methods.getFullName = function () {
