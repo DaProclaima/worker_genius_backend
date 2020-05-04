@@ -9,10 +9,10 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn install && yarn start",
-    "start": "eslint .eslintrc.js .eslintignore ./app/ index.js  && node index.js",
-    "dev": "eslint .eslintrc.js .eslintignore ./app/ index.js && nodemon index.js",
+    "start": "yarn lint  && node index.js",
+    "dev": "yarn lint && nodemon index.js",
     "test": "mocha",
-    "lint": "eslint .eslintrc.js .eslintignore ./app/ index.js"
+    "lint": "eslint .eslintrc.js .eslintignore ./app/ index.js --fix"
   },
   "dependencies": {
     "body-parser": "1.18.3",
@@ -23,7 +23,6 @@
     "express-handlebars": "^3.1.0",
     "handlebars-dateformat": "^1.1.1",
     "handlebars-intl": "^1.1.2",
-    "hbs": "^4.1.0",
     "helmet": "^3.22.0",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.10",

@@ -14,10 +14,10 @@ const ListCertification = require('./certification/list')
 
 // jobOffers
 const NewJobOffer = require('./job-offer/new')
-// const ShowJobOffer = require('./job-offer/show')
-// const EditJobOffer = require('./job-offer/edit')
-// const DeleteJobOffer = require('./job-offer/delete')
-// const ListJobOffer = require('./job-offer/list')
+const ShowJobOffer = require('./job-offer/show')
+const EditJobOffer = require('./job-offer/edit')
+const DeleteJobOffer = require('./job-offer/delete')
+const ListJobOffer = require('./job-offer/list')
 
 module.exports = {
   users: {
@@ -35,7 +35,11 @@ module.exports = {
     ListCertification
   },
   jobOffers: {
-    NewJobOffer
+    NewJobOffer,
+    ShowJobOffer,
+    EditJobOffer,
+    DeleteJobOffer,
+    ListJobOffer
 
   }
 }

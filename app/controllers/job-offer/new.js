@@ -2,7 +2,7 @@ const JobOffer = require('../../models/job-offer')
 // const User = require('../../models/user')
 
 /**
- * Create
+ * New
  * @class
  */
 class New {
@@ -21,17 +21,21 @@ class New {
     this.app.post(`${this.apiPrefix}/job-offer/new`, async (req, res) => {
       try {
         const jobOfferModel = new this.JobOfferModel(req.body)
-        jobOfferModel.setSlug()
-        await res.status(201).send({jobOfferModel})
+        jobOfferModel.setSlug(jobOfferModel._id)
+        await res.status(201).send({ jobOfferModel })
         jobOfferModel.save()
+        // throw new Error('Error from server while processing new job offer creation.')
       } catch (err) {
-        res.status(500).json({
-          'code': 500,
-          'message': err
+        console.error(err) // For debugging reasons
+
+        return res.status(500).send({
+          error: 'GENERIC',
+          description: 'Something went wrong. Please try again or contact support.'
         })
       }
     })
   }
+
   /**
    * run
    */

@@ -3,16 +3,16 @@ const mongoose = require('mongoose')
 // const JWT = require('../jwt')
 // const jwt = new JWT()
 const Schema = mongoose.Schema
-const Mixed = Schema.Types.Mixed
+// const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
 
 const JobOfferSchema = new mongoose.Schema({
   title: String,
-  id: ObjectId,
+  level: String,
   slug: String,
-  publisher: [ObjectId],
-  list_candidates: [Mixed], // candidate and hour they replied
-  street_name: String,
+  publisher: ObjectId,
+  list_candidates: [ObjectId], // candidate and hour they replied
+  street__num_name: String,
   city_name: String,
   department: String,
   country: String,
@@ -21,7 +21,6 @@ const JobOfferSchema = new mongoose.Schema({
   number_views: Number,
   number_replies: Number,
   picture: String,
-  level: String,
   salary_per_year: Number,
   contract_type: String,
   mission_length: Number,
@@ -31,7 +30,6 @@ const JobOfferSchema = new mongoose.Schema({
   list_required_certifications: [ObjectId],
   creation_date: { type: Date, default: Date.now },
   last_update: Date
-
 }, {
   collection: 'job_offers', 
   minimize: false, 
@@ -46,7 +44,7 @@ const JobOfferSchema = new mongoose.Schema({
 JobOfferSchema.methods.setTitle = function (title) {
   try {
     if (title === 'string') {
-      this.title = title
+      this.title = title.toLowerCase()
       return this
     }
     throw new Error('The title is not a string')
@@ -59,12 +57,8 @@ JobOfferSchema.methods.getTitle = function () {
   return this.title
 }
 
-JobOfferSchema.methods.getId = function () {
-  return this.id
-}
-
-JobOfferSchema.methods.setSlug = function () {
-  this.slug = generateSlug(this.getFullName())
+JobOfferSchema.methods.setSlug = function (id) {
+  this.slug = `${generateSlug(this.getCompanyName())}_${generateSlug(this.getTitle())}_${id}`
   return this
 }
 
@@ -98,7 +92,7 @@ JobOfferSchema.methods.getListCandidates = function () {
 JobOfferSchema.methods.setStreetName = function (streetName) {
   try {
     if (typeof streetName === 'string') {
-      this.street_name = streetName
+      this.street__num_name = streetName
       return this
     }
     throw new Error('The street name is not a string')
@@ -108,7 +102,7 @@ JobOfferSchema.methods.setStreetName = function (streetName) {
 }
 
 JobOfferSchema.methods.getStreetName = function () {
-  return this.street_name 
+  return this.street__num_name 
 }
 
 JobOfferSchema.methods.setCityName = function (cityName) {

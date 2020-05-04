@@ -1,3 +1,4 @@
+const assertType = require('../helpers/assertType')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
@@ -63,7 +64,7 @@ CertificationSchema.methods.setTimeout = function (timeout) {
       this.timeout = timeout
       return this
     }
-    throw new Error('The salary per year is not a number')
+    throw new Error('The timeout is not a number')
   } catch (error) {
     console.error(error)
   }
@@ -141,7 +142,7 @@ CertificationSchema.methods.getListLanguages = function () {
 }
 
 CertificationSchema.methods.setCreatorId = function (id) {
-  // TODO try catch if Id exists then...
+  // TODO try catch if Id exists then... else error can not be empty
   this.creatorId = id
 }
 
@@ -154,15 +155,8 @@ CertificationSchema.methods.getCreationDate = function () {
 }
 
 CertificationSchema.methods.setPicture = function (picture) {
-  try {
-    if (typeof picture === 'string') {
-      this.picture = picture
-      return this
-    }
-    throw new Error('The picture url is not a string')
-  } catch (error) {
-    console.error(error)
-  }
+  this.picture = assertType.checkString(picture, 'Picture')
+  return this
 }
 
 CertificationSchema.methods.getPicture = function () {
