@@ -3,7 +3,7 @@ const JobOffer = require('../../models/job-offer')
 // const jwt = new JWT()
 
 /**
- * Create
+ * List
  * @class
  */
 class List {

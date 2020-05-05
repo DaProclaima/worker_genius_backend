@@ -22,6 +22,13 @@ const ListJobOffer = require('./job-offer/list')
 // Emails
 const NewEmail = require('./email/new')
 
+// Messages
+const NewMessage = require('./message/new')
+const ShowMessage = require('./message/show')
+const EditMessage = require('./message/edit')
+const ListMessage = require('./message/list')
+const DeleteMessage = require('./message/delete')
+
 module.exports = {
   users: {
     NewUser,
@@ -46,5 +53,12 @@ module.exports = {
   },
   emails: {
     NewEmail
+  },
+  messages: {
+    NewMessage,
+    ShowMessage,
+    EditMessage,
+    DeleteMessage,
+    ListMessage
   }
 }

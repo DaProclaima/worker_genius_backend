@@ -3,18 +3,16 @@ const mongoose = require('mongoose')
 // const JWT = require('../jwt')
 // const jwt = new JWT()
 const Schema = mongoose.Schema
-// const Mixed = Schema.Types.Mixed
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 
-const MessageSchema = new mongoose.Schema({
-  expeditor: [ObjectId],
-  receiver: [ObjectId],
+const MessageSchema = new Schema({
+  expeditor: String, // ObjectId
+  receiver: String, // ObjectId
   content: String,
-  id: ObjectId,
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
-  collection: 'users', 
+  collection: 'messages', 
   minimize: false, 
   versionKey: false
 }).set('toJSON', {
@@ -30,7 +28,7 @@ MessageSchema.methods.setExpeditor = function (id) {
   return this
 }
 
-MessageSchema.methods.getExpeditor = function (id) {
+MessageSchema.methods.getExpeditor = function () {
   return this.expeditor
 }
 
@@ -40,7 +38,7 @@ MessageSchema.methods.setReceiver = function (id) {
   return this
 }
 
-MessageSchema.methods.getReceiver = function (id) {
+MessageSchema.methods.getReceiver = function () {
   return this.receiver
 }
 
@@ -64,3 +62,5 @@ MessageSchema.methods.setLastUpdate = function () {
 MessageSchema.methods.getLastUpdate = function () { 
   return this.last_update
 }
+
+module.exports = MessageSchema

@@ -107,6 +107,13 @@ class Server {
     // emails
     new routes.emails.NewEmail(this.app, this.connect, this.apiPrefix)
 
+    // messages
+    new routes.messages.NewMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.ShowMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.EditMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.DeleteMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.ListMessage(this.app, this.connect, this.apiPrefix)
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,
