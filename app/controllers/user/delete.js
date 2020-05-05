@@ -3,7 +3,7 @@ const User = require('../../models/user')
 // const jwt = new JWT()
 
 /**
- * Create
+ * Delete
  * @class
  */
 class Delete {

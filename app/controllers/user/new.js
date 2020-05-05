@@ -21,7 +21,7 @@ class Create {
         const userModel = new this.UserModel(req.body)
         // await userModel.generateAuthToken()
         userModel.setSlug()
-        res.status(201).send({userModel})
+        await res.status(201).send({userModel})
         userModel.save()
       } catch (err) {
         res.status(500).json({

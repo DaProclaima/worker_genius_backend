@@ -3,7 +3,7 @@ const Certification = require('../../models/certification')
 // const jwt = new JWT()
 
 /**
- * Create
+ * Edit
  * @class
  */
 class Edit {
@@ -38,6 +38,7 @@ class Edit {
         model.setLastUpdate()
         res.status(200).json(model || {})
       }).catch(err => {
+        console.log(err)
         res.status(500).json({
           'code': 500,
           'message': err

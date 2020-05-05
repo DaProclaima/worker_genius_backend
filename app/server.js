@@ -2,7 +2,6 @@ const express = require('express')
 const routes = require('./controllers/routes.js')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-// const exphbs = require('express-handlebars')
 // const path = require('path')
 // const fetch = require('node-fetch')
 
@@ -78,9 +77,6 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
-
-    this.app.use(bodyParser.urlencoded({ 'extended': true }))
-    this.app.use(bodyParser.json())
   }
 
   /**
@@ -101,10 +97,27 @@ class Server {
     new routes.certifications.DeleteCertification(this.app, this.connect, this.apiPrefix)
     new routes.certifications.ListCertification(this.app, this.connect, this.apiPrefix)
 
+    // jobOffers
+    new routes.jobOffers.NewJobOffer(this.app, this.connect, this.apiPrefix)
+    new routes.jobOffers.ShowJobOffer(this.app, this.connect, this.apiPrefix)
+    new routes.jobOffers.EditJobOffer(this.app, this.connect, this.apiPrefix)
+    new routes.jobOffers.DeleteJobOffer(this.app, this.connect, this.apiPrefix)
+    new routes.jobOffers.ListJobOffer(this.app, this.connect, this.apiPrefix)
+
+    // emails
+    new routes.emails.NewEmail(this.app, this.connect, this.apiPrefix)
+
+    // messages
+    new routes.messages.NewMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.ShowMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.EditMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.DeleteMessage(this.app, this.connect, this.apiPrefix)
+    new routes.messages.ListMessage(this.app, this.connect, this.apiPrefix)
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,
-        'message': 'Not Found'
+        'message': 'Route not Found'
       })
     })
   }

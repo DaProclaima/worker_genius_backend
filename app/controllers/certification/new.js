@@ -1,5 +1,7 @@
-const Certifications = require('../../models/certification')
+const Certification = require('../../models/certification')
 // const User = require('../../models/user')
+// const fetch = require('node-fetch')
+// TODO: every controller has to check consistency of given command for security check ( no node commands)
 
 /**
  * Create
@@ -9,7 +11,7 @@ class New {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.CertificationModel = connect.model('Certifications', Certifications)
+    this.CertificationModel = connect.model('Certification', Certification)
     // this.UserModel = connect.model('User', User)
     this.run()
   }

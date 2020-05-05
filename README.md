@@ -21,29 +21,25 @@ You need to use Node JS 10
 ExpressJS for server, MongoDB for database, yarn as node package manager
 
 ## What is the application architecture ?
-The architecture is MVC type. Here is a representative tree of the project ( made with 'tree -I node_modules' command,
+The architecture is MVC type. Here is a representative tree of the project ( made with 'tree -d -I node_modules' command,
  given by brew install tree) :
  
 ```
 .
-├── README.md
 ├── app
-│   ├── index.js
-│   ├── bin
-│   │   └── www
+│   ├── configuration
 │   ├── controllers
+│   │   ├── certification
+│   │   ├── email
+│   │   ├── job-offer
+│   │   ├── message
+│   │   └── user
+│   ├── helpers
 │   ├── models
-│   ├── public
-│   │   ├── images
-│   │   ├── javascripts
-│   │   └── stylesheets
-│   │       └── style.css
-│   ├── routes
-│   │   ├── index.js
-│   │   └── users.js
-├── package.json
-├── test
-└── yarn.lock
+│   └── security
+├── resources
+│   └── images
+└── test
 ```
 
 ## How to set up the app ?
@@ -64,21 +60,76 @@ Want to stop the app ? Just type CTRL + C
 
 ## How to use this RESTful HTTP API
 
-### Explanation
+### Explanations
 This API exposes these entities:
 - certification
 - user
+- message
+- job-offer
+- email
+
+#### Role of each entity
+
+##### Certification
+Certification represents a work any candidate has to pass to validate in order to post to job offers
+
+##### Job-offer
+Job offer represents a job offer posted by an enterprise which a candidate can apply to.
+
+##### User
+User represents a logged-in type of visiter on our website. It can have an admin, candidate or enterprise user_type (role)
+
+##### Message
+Message represents a message written in a private conversation between two logged-in users.
+
+##### Email
+Email is a contact email available to any visiter of our website for him to directly contact admin@workergenius.com
+
+
+#### Requests to use for this CRUD API
 
 To fetch an item, it is decided to use a slug which is a actually a title for url as so : the-title-of-my-object.
-Better not use an Id which is a bad practice for SEO and UX.
+Better not use an Id which is a bad practice for SEO and UX except for private conversation's messages for instance.
 
 To perform a CRUD on these entities, you need to use this syntax:
 
 - NEW creation of an object with PUT http method : http://localhost/3010/api/v1/entity/new/
-- EDIT an object with POST http method : http://localhost/3010/api/v1/entity/edit/:slug
-- SHOW an object with GET http method : http://localhost/3010/api/v1/entity/show/:slug
-- DELETE an object with DELETE http method : http://localhost/3010/api/v1/entity/delete/:slug
+- EDIT an object with POST http method : http://localhost/3010/api/v1/entity/edit/:param
+- SHOW an object with GET http method : http://localhost/3010/api/v1/entity/show/:param
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/entity/delete/:param
 - LIST an object with GET http method : http://localhost/3010/api/v1/entity/list
+
+#### CRUD for certification
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/certification/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/certification/edit/:slug
+- SHOW an object with GET http method : http://localhost/3010/api/v1/certification/show/:slug
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/certification/delete/:slug
+- LIST an object with GET http method : http://localhost/3010/api/v1/certification/list
+
+#### CRUD for user
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/user/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/user/edit/:slug
+- SHOW an object with GET http method : http://localhost/3010/api/v1/user/show/:slug
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/user/delete/:slug
+- LIST an object with GET http method : http://localhost/3010/api/v1/user/list
+
+#### CRUD for message
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/message/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/message/edit/:id
+- SHOW an object with GET http method : http://localhost/3010/api/v1/message/show/:id
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/message/delete/:id
+- LIST an object with GET http method : http://localhost/3010/api/v1/message/list
+
+#### CRUD for job-offer
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/job-offer/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/job-offer/edit/:slug
+- SHOW an object with GET http method : http://localhost/3010/api/v1/job-offer/show/:slug
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/job-offer/delete/:slug
+- LIST an object with GET http method : http://localhost/3010/api/v1/job-offer/list
+
+#### CRUD for email (there is only a POST method existing)
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/email/new/
+
 
 ### Example of use
 Let us take an example and use [POSTMAN REST Client application](https://www.postman.com/), and use [Compass](https://www.mongodb.com/products/compass) for MongoDB .
