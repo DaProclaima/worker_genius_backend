@@ -8,10 +8,10 @@ const ObjectId = Schema.ObjectId
 
 const EmailSchema = new mongoose.Schema({
   email_expeditor: String,
-  email_receiver: String,
+  full_name_expeditor: String,
+  email_receiver: { type: String, default: 'admin@workergenius.com' },
   id_expeditor: [ObjectId],
   content: String,
-  id: ObjectId,
   creation_date: { type: Date, default: Date.now }
 }, {
   collection: 'emails', 
@@ -53,7 +53,7 @@ EmailSchema.methods.getContent = function () {
 }
 
 EmailSchema.methods.getId = function () { 
-  return this.id
+  return this._id
 }
 
 EmailSchema.methods.getCreationDate = function () { 

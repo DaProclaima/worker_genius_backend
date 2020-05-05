@@ -7,7 +7,6 @@ const generateSlug = require('../helpers/generateSlug')
 
 const CertificationSchema = new mongoose.Schema({
   title: String,
-  Id: ObjectId,
   slug: String,
   timeout: Number,
   description: String,
@@ -46,7 +45,7 @@ CertificationSchema.methods.getTitle = function () {
 }
 
 CertificationSchema.methods.getId = function () {
-  return this.id
+  return this._id
 }
 
 CertificationSchema.methods.setSlug = function () {

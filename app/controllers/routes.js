@@ -19,6 +19,9 @@ const EditJobOffer = require('./job-offer/edit')
 const DeleteJobOffer = require('./job-offer/delete')
 const ListJobOffer = require('./job-offer/list')
 
+// Emails
+const NewEmail = require('./email/new')
+
 module.exports = {
   users: {
     NewUser,
@@ -40,6 +43,8 @@ module.exports = {
     EditJobOffer,
     DeleteJobOffer,
     ListJobOffer
-
+  },
+  emails: {
+    NewEmail
   }
 }

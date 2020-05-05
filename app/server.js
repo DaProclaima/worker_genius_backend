@@ -104,6 +104,9 @@ class Server {
     new routes.jobOffers.DeleteJobOffer(this.app, this.connect, this.apiPrefix)
     new routes.jobOffers.ListJobOffer(this.app, this.connect, this.apiPrefix)
 
+    // emails
+    new routes.emails.NewEmail(this.app, this.connect, this.apiPrefix)
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,

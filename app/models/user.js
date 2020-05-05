@@ -320,6 +320,7 @@ UserSchema.methods.getLastUpdate = function () {
 UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
 }
+
 // UserSchema.methods.generateAuthToken = async function () {
 //   // Generate an auth token for the user
 //   const user = this
