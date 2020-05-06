@@ -39,7 +39,8 @@ class Edit {
           length_unit: body.length_unit,
           is_fulfilled: body.is_fulfilled,
           is_archived: body.is_archived,
-          list_required_certifications: body.list_required_certifications
+          list_required_certifications: body.list_required_certifications,
+          last_update: Date.now()
         }
       }, {
         new: true

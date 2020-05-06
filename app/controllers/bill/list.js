@@ -1,28 +1,37 @@
 const Bill = require('../../models/bill')
 // const JWT = require('../../jwt.js')
 // const jwt = new JWT()
+
 /**
- * Create
+ * List
  * @class
  */
-class Delete {
+class List {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.BillModel = connect.model('Bill', Bill)
+    this.Model = connect.model('Bill', Bill)
     this.run()
   }
+
   /**
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, (req, res) => {
+    this.app.get(`${this.apiPrefix}/bill/list`, (_, res) => {
       try {
-        const { id } = req.params
-        this.BillModel.findByIdAndDelete(id)
-          .then(model => {
-            res.status(200).json(model || {})
-          })
+        this.Model.find({}, function (err, result) {
+          if (err) {
+            console.error(err)
+            
+            res.status(500).json({
+              'code': 500,
+              'message': err
+            })
+          } else {
+            res.status(200).json(result)
+          }
+        })
       } catch (err) {
         res.status(500).json({
           'code': 500,
@@ -40,4 +49,4 @@ class Delete {
   }
 }
 
-module.exports = Delete
+module.exports = List

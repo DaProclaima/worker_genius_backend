@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 // const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
 
-const EmailSchema = new mongoose.Schema({
+const EmailSchema = new Schema({
   email_expeditor: String,
   full_name_expeditor: String,
   email_receiver: { type: String, default: 'admin@workergenius.com' },

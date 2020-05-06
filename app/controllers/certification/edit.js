@@ -29,13 +29,42 @@ class Edit {
           description: body.description,
           project: body.project,
           prerequisite: body.prerequisite,
-          languages: body.languages
+          languages: body.languages,
+          last_update: Date.now()
         }
       }, {
         new: true
       }).then(model => {  
         model.setSlug()
         model.setLastUpdate()
+        res.status(200).json(model || {})
+      }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+          'code': 500,
+          'message': err
+        })
+      })
+    })
+
+    this.app.put(`${this.apiPrefix}/certification/edit/:id`, (req, res) => {
+      const { id } = req.params
+      const { body } = req
+
+      this.CertificationModel.findById(id, {
+        $set: {
+          title: body.title,
+          timeout: body.timeout,
+          description: body.description,
+          project: body.project,
+          prerequisite: body.prerequisite,
+          languages: body.languages,
+          last_update: Date.now()
+        }
+      }, {
+        new: true
+      }).then(model => {  
+        model.setSlug()
         res.status(200).json(model || {})
       }).catch(err => {
         console.log(err)

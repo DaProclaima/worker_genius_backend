@@ -114,6 +114,13 @@ class Server {
     new routes.messages.DeleteMessage(this.app, this.connect, this.apiPrefix)
     new routes.messages.ListMessage(this.app, this.connect, this.apiPrefix)
 
+    // bills
+    new routes.bills.NewBill(this.app, this.connect, this.apiPrefix)
+    new routes.bills.ShowBill(this.app, this.connect, this.apiPrefix)
+    new routes.bills.EditBill(this.app, this.connect, this.apiPrefix)
+    new routes.bills.DeleteBill(this.app, this.connect, this.apiPrefix)
+    new routes.bills.ListBill(this.app, this.connect, this.apiPrefix)
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,

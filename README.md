@@ -29,6 +29,7 @@ The architecture is MVC type. Here is a representative tree of the project ( mad
 ├── app
 │   ├── configuration
 │   ├── controllers
+│   │   ├── bill
 │   │   ├── certification
 │   │   ├── email
 │   │   ├── job-offer
