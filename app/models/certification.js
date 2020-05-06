@@ -16,7 +16,8 @@ const CertificationSchema = new Schema({
   list_languages: [String],
   creatorId: [ObjectId], // will take the Id of the creator,
   creation_date: { type: Date, default: Date.now },
-  last_update: Date
+  last_update: Date,
+  is_granted: Boolean
 }, {
   collection: 'certifications', 
   minimize: false, 

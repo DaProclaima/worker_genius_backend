@@ -9,12 +9,12 @@ const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, required: true },
+  username: { type: String, unique: true, required: false },
   first_name: String,
   last_name: String,
   email: { type: String, unique: true, required: true },
   hash: String,
-  user_type: [String],
+  user_type: { type: [String], required: true, enum: ['admin', 'candidate', 'enterprise', 'watcher'] },
   street_name: String,
   city_name: String,
   department_name: String,
@@ -22,7 +22,6 @@ const UserSchema = new Schema({
   company_name: String,
   company_vat: String,
   resume: Mixed,
-  slug: String,
   profile_consultation_counter: Number,
   profile_picture: String,
   list_skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
@@ -31,7 +30,8 @@ const UserSchema = new Schema({
   list_posted_job: [ObjectId],
   list_bills: [ObjectId],
   creation_date: { type: Date, default: Date.now },
-  last_update: Date
+  last_update: Date,
+  job_offers_counter: Number
 
 }, {
   collection: 'users', 
@@ -190,8 +190,8 @@ UserSchema.methods.getId = function () {
   return this._id
 }
 
-UserSchema.methods.setSlug = function () {
-  this.slug = generateSlug(this.username)
+UserSchema.methods.setSlug = function (num) {
+  this.username = `${generateSlug(this.getFullName())}-${num}`
   return this
 }
 
@@ -341,6 +341,19 @@ UserSchema.methods.getCreationDate = function () {
 UserSchema.methods.setLastUpdate = function () {
   this.last_update = Date.now
   return this
+}
+
+UserSchema.methods.getLastUpdate = function () {
+  return this.last_update
+}
+
+UserSchema.methods.setJobOffers = function (num) {
+  this.job_offers += num
+  return this
+}
+
+UserSchema.methods.getJobOffers = function () {
+  return this.job_offers
 }
 
 UserSchema.methods.getLastUpdate = function () {

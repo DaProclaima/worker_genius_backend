@@ -57,8 +57,8 @@ JobOfferSchema.methods.getTitle = function () {
   return this.title
 }
 
-JobOfferSchema.methods.setSlug = function (id) {
-  this.slug = `${generateSlug(this.getCompanyName())}_${generateSlug(this.getTitle())}_${id}`
+JobOfferSchema.methods.setSlug = function (num) {
+  this.slug = `${generateSlug(this.getTitle())}_${num}`
   return this
 }
 

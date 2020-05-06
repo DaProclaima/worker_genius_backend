@@ -17,11 +17,14 @@ class New {
    */
   middleware () {
     this.app.post(`${this.apiPrefix}/email/new`, async (req, res) => {
+      const emailModel = new this.EmailModel(req.body)
       try {
-        const emailModel = new this.EmailModel(req.body)
-        await res.status(201).send({ emailModel })
-        emailModel.save()
-        // throw new Error('Error from server while processing new job offer creation.')
+        if(emailModel) {
+          await res.status(201).send({ emailModel })
+          emailModel.save()
+          return
+        }
+        throw new Error('Error from server while processing new email creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 

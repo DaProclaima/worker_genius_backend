@@ -17,13 +17,17 @@ class New {
    */
   middleware () {
     this.app.post(`${this.apiPrefix}/message/new`, async (req, res) => {
-      try {
-        const { body } = req
-        // await res.status(201).send({ body })
-        const msgModel = new this.MsgModel(body)
+
+    const { body } = req
+    // await res.status(201).send({ body })
+    const msgModel = new this.MsgModel(body)
+    try {
+      if(msgModel) {
         await res.status(201).send({ msgModel })
         msgModel.save()
-        // throw new Error('Error from server while processing new job offer creation.')
+        return
+      }
+      throw new Error('Error from server while processing new message creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 

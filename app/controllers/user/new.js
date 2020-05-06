@@ -17,12 +17,16 @@ class Create {
    */
   middleware () {
     this.app.post(`${this.apiPrefix}/user/new`, async (req, res) => {
+      const userModel = new this.UserModel(req.body)
       try {
-        const userModel = new this.UserModel(req.body)
-        // await userModel.generateAuthToken()
-        userModel.setSlug()
-        await res.status(201).send({userModel})
-        userModel.save()
+        if(userModel) {
+          // await userModel.generateAuthToken()
+          userModel.setSlug(userModel._id.toString().substring(20,25))
+          await res.status(201).send({userModel})
+          userModel.save()
+          return
+        }
+        throw new Error('Something went wrong while user creation.')
       } catch (err) {
         res.status(500).json({
           'code': 500,
@@ -31,6 +35,7 @@ class Create {
       }
     })
   }
+
   /**
    * run
    */

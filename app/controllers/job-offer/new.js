@@ -19,12 +19,14 @@ class New {
    */
   middleware () {
     this.app.post(`${this.apiPrefix}/job-offer/new`, async (req, res) => {
+      const jobOfferModel = new this.JobOfferModel(req.body)
       try {
-        const jobOfferModel = new this.JobOfferModel(req.body)
-        jobOfferModel.setSlug(jobOfferModel._id)
-        await res.status(201).send({ jobOfferModel })
-        jobOfferModel.save()
-        // throw new Error('Error from server while processing new job offer creation.')
+        if(jobOfferModel) {
+          jobOfferModel.setSlug(jobOfferModel._id.toString().substring(20,25))
+          await res.status(201).send({ jobOfferModel })
+          jobOfferModel.save()
+        }
+        throw new Error('Error from server while processing new job offer creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 

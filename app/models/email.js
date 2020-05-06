@@ -9,8 +9,9 @@ const ObjectId = Schema.ObjectId
 const EmailSchema = new Schema({
   email_expeditor: String,
   full_name_expeditor: String,
-  email_receiver: { type: String, default: 'admin@workergenius.com' },
+  email_receiver: { type: String, default: 'contact@workergenius.com' },
   id_expeditor: [ObjectId],
+  // reasons
   content: String,
   creation_date: { type: Date, default: Date.now }
 }, {
