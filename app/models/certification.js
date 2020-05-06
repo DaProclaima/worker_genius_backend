@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId
 const Mixed = Schema.Types.Mixed
 const generateSlug = require('../helpers/generateSlug')
 
-const CertificationSchema = new mongoose.Schema({
+const CertificationSchema = new Schema({
   title: String,
   slug: String,
   timeout: Number,

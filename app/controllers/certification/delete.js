@@ -1,4 +1,4 @@
-const Certification = require('../../models/certification')
+const Bill = require('../../models/bill')
 // const JWT = require('../../jwt.js')
 // const jwt = new JWT()
 /**
@@ -9,17 +9,17 @@ class Delete {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.CertificationModel = connect.model('Certification', Certification)
+    this.BillModel = connect.model('Bill', Bill)
     this.run()
   }
   /**
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/certification/delete/:slug`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, (req, res) => {
       try {
-        const { slug } = req.params
-        this.CertificationModel.findOneAndDelete({slug: slug})
+        const { id } = req.params
+        this.BillModel.findByIdAndDelete(id)
           .then(model => {
             res.status(200).json(model || {})
           })

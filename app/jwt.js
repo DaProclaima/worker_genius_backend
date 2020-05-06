@@ -1,7 +1,7 @@
 const CryptoJS = require('crypto-js')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-mongoose.connect('mongodb://localhost/checo', function (err) {
+mongoose.connect('mongodb://localhost/worker_genius', function (err) {
   if (err) {
     console.log(err)
   }
@@ -9,6 +9,7 @@ mongoose.connect('mongodb://localhost/checo', function (err) {
 const doc = mongoose.model('users', new Schema(
   {name: String})
 )
+
 /**
  * Jwt - Json Web Token
  */

@@ -1,16 +1,18 @@
 const assertType = require('../helpers/assertType')
 const generateSlug = require('../helpers/generateSlug')
 const mongoose = require('mongoose')
+const listManager = require('../helpers/listManager')
 // const JWT = require('../jwt')
 // const jwt = new JWT()
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
+  username: { type: String, unique: true, required: true },
   first_name: String,
   last_name: String,
-  email: String,
+  email: { type: String, unique: true, required: true },
   hash: String,
   user_type: [String],
   street_name: String,
@@ -20,7 +22,6 @@ const UserSchema = new mongoose.Schema({
   company_name: String,
   company_vat: String,
   resume: Mixed,
-  id: ObjectId,
   slug: String,
   profile_consultation_counter: Number,
   profile_picture: String,
@@ -28,6 +29,7 @@ const UserSchema = new mongoose.Schema({
   list_certifications: [ObjectId],
   list_replied_job: [ObjectId],
   list_posted_job: [ObjectId],
+  list_bills: [ObjectId],
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 
@@ -41,6 +43,15 @@ const UserSchema = new mongoose.Schema({
     delete ret._id
   }
 })
+
+UserSchema.methods.setUsername = function (name) {
+  this.username = assertType.checkString(name, 'Username')
+  return this
+}
+
+UserSchema.methods.getUsername = function () {
+  return this.username
+}
 
 UserSchema.methods.setFirstName = function (firstName) {
   this.first_name = assertType.checkString(firstName, 'First name')
@@ -176,11 +187,11 @@ UserSchema.methods.getResume = function () {
 }
 
 UserSchema.methods.getId = function () {
-  return this.id
+  return this._id
 }
 
 UserSchema.methods.setSlug = function () {
-  this.slug = generateSlug(this.getFullName())
+  this.slug = generateSlug(this.username)
   return this
 }
 
@@ -304,6 +315,25 @@ UserSchema.methods.getListRepliedJobs = function () {
   return this.list_replied_job
 }
 
+UserSchema.methods.addBill = function (id) {
+  // TODO: if bill id exists then... else error
+  listManager.addElement(this.list_bills, id)
+  return this
+}
+
+UserSchema.methods.removeBill = function (id) {
+  // TODO: check if certification exists then...
+  listManager.removeElement(this.list_bills, id)
+  return this
+}
+
+UserSchema.methods.getOneBill = function (id) {
+  return listManager.getElementInList(this.list_bills, id)
+}
+
+UserSchema.methods.getListRepliedJobs = function () {
+  return this.list_replied_job
+}
 UserSchema.methods.getCreationDate = function () {
   return this.creation_date
 }

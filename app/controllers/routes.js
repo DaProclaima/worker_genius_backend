@@ -29,6 +29,13 @@ const EditMessage = require('./message/edit')
 const ListMessage = require('./message/list')
 const DeleteMessage = require('./message/delete')
 
+// Bills
+const NewBill = require('./bill/new')
+const ShowBill = require('./bill/show')
+const EditBill = require('./bill/edit')
+const DeleteBill = require('./bill/delete')
+const ListBill = require('./bill/list')
+
 module.exports = {
   users: {
     NewUser,
@@ -60,5 +67,12 @@ module.exports = {
     EditMessage,
     DeleteMessage,
     ListMessage
+  },
+  bills: {
+    NewBill,
+    ShowBill,
+    EditBill,
+    DeleteBill,
+    ListBill
   }
 }

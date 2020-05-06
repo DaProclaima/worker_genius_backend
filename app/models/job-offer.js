@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 // const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
 
-const JobOfferSchema = new mongoose.Schema({
+const JobOfferSchema = new Schema({
   title: String,
   level: String,
   slug: String,
