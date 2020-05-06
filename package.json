@@ -9,11 +9,12 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn install && yarn start",
-    "start": "yarn lint  && node index.js",
+    "start": "yarn lint  && yarn start-auth && node index.js",
     "dev": "yarn lint && nodemon index.js",
     "test": "nyc  --reporter=html --reporter=text mocha",
     "lint": "eslint --fix .eslintrc.js .eslintignore ./app/ index.js",
-    "ssh-mac": "ssh-keygen -t rsa -f ./private.perm -N password"
+    "ssh-mac": "ssh-keygen -t rsa -f ./private.perm -N password",
+    "start-auth": "node auth.js"
   },
   "dependencies": {
     "body-parser": "1.18.3",

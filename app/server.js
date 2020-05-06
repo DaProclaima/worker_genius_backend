@@ -77,9 +77,6 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
-    // this.post('login', (req, res) => {
-    //   const user
-    // })
   }
 
   /**
