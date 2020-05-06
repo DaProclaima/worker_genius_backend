@@ -2,3 +2,8 @@ node_modules
 .DS_Store
 .idea
 yarn.lock
+private.perm
+private.perm.pub
+.env.production
+.env.development
+.env.test
