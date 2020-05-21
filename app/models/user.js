@@ -2,8 +2,6 @@ const assertType = require('../helpers/assertType')
 const generateSlug = require('../helpers/generateSlug')
 const mongoose = require('mongoose')
 const listManager = require('../helpers/listManager')
-const JWT = require('../jwt')
-const jwt = new JWT()
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 const ObjectId = Schema.ObjectId
@@ -32,7 +30,7 @@ const UserSchema = new Schema({
   list_bills: [ObjectId],
   creation_date: { type: Date, default: Date.now },
   last_update: Date,
-  token: String,
+  token: String
 
 }, {
   collection: 'users', 
@@ -350,15 +348,6 @@ UserSchema.methods.getLastUpdate = function () {
 
 UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
-}
-
-UserSchema.methods.generateAuthToken = async function () {
-  // Generate an auth token for the user
-  const user = this
-  const token = jwt.JWTgenerator(user)
-  user.token = token
-  await user.save()
-  return token
 }
 
 module.exports = UserSchema

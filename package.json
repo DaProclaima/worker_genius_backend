@@ -9,14 +9,15 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn install && yarn start",
-    "start": "yarn lint  && yarn start-auth && node index.js",
+    "start": "yarn lint && node index.js",
     "dev": "yarn lint && nodemon index.js",
     "test": "nyc  --reporter=html --reporter=text mocha",
     "lint": "eslint --fix .eslintrc.js .eslintignore ./app/ index.js",
-    "ssh-mac": "ssh-keygen -t rsa -f ./private.perm -N password",
-    "start-auth": "node auth.js"
+    "start-auth": "node ./JWT/server.js"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "1.18.3",
     "compression": "1.7.2",
     "cors": "2.8.4",
@@ -31,6 +32,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.10",
     "mpath": "^0.5.1",
+    "ms": "^2.1.2",
     "node": "^10.9.0",
     "node-fetch": "^2.6.0",
     "node-validator": "0.1.27",
