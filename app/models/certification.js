@@ -14,7 +14,7 @@ const CertificationSchema = new Schema({
   list_prerequisites: [String],
   picture: String,
   list_languages: [String],
-  creatorId: [String], // will take the Id of the creator,
+  creatorId: [ObjectId], // will take the Id of the creator,
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
