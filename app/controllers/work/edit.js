@@ -28,9 +28,9 @@ class Edit {
           corrector_id: body.corrector_id,
           watcher_id: body.watcher_id,
           certification_id: body.certification_id, 
-          grade:body.grade,
+          grade: body.grade,
           correction_date: body.correction_date,
-          update_date: Date.Now,
+          update_date: Date.Now
         }
       }, {
         new: true

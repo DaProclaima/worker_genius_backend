@@ -13,7 +13,7 @@ const WorkSchema = new Schema({
   certification_id: [String], 
   grade: Number,
   creation_date: { type: Date, default: Date.now },
-  update_date: { type: Date, default: null},
+  update_date: { type: Date, default: null },
   correction_date: { type: Date, default: null }
 }, {
   collection: 'works', 
