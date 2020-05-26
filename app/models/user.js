@@ -28,9 +28,12 @@ const UserSchema = new Schema({
   list_replied_job: [ObjectId],
   list_posted_job: [ObjectId],
   list_bills: [ObjectId],
+  list_works: [ObjectId],
+  list_corrections: [ObjectId],
+  list_watched_candidates: [ObjectId],
   creation_date: { type: Date, default: Date.now },
   last_update: Date,
-  token: String
+  token: String // TODO: will it stay here ??
 
 }, {
   collection: 'users', 

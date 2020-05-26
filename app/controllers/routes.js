@@ -36,6 +36,13 @@ const EditBill = require('./bill/edit')
 const DeleteBill = require('./bill/delete')
 const ListBill = require('./bill/list')
 
+//  Works
+const NewWork = require('./work/new')
+const ShowWork = require('./work/show')
+const EditWork = require('./work/edit')
+const ListWork = require('./work/list')
+const DeleteWork = require('./work/delete')
+
 module.exports = {
   users: {
     NewUser,
@@ -74,5 +81,12 @@ module.exports = {
     EditBill,
     DeleteBill,
     ListBill
+  },
+  works: {
+    NewWork,
+    ShowWork,
+    EditWork,
+    DeleteWork,
+    ListWork
   }
 }

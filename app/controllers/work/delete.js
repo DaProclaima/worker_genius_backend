@@ -1,4 +1,4 @@
-const Bill = require('../../models/bill')
+const Work = require('../../models/work')
 // const JWT = require('../../jwt.js')
 // const jwt = new JWT()
 
@@ -10,14 +10,14 @@ class Delete {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.MsgModel = connect.model('Bill', Bill)
+    this.MsgModel = connect.model('Work', Work)
     this.run()
   }
   /**
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/work/delete/:id`, (req, res) => {
       try {
         const { id } = req.params
         this.MsgModel.findByIdAndDelete(id)
@@ -28,7 +28,7 @@ class Delete {
         console.log(err)
         res.status(500).json({
           'code': 500,
-          'bill': err
+          'work': err
         })
       }
     })

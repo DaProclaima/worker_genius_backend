@@ -41,7 +41,7 @@ class Server {
    * @return {Object} connect
    */
   dbConnect () {
-    const host = process.env.DB_CONNECT_LOCAL
+    const host = process.env.DB_CONNECT_LOCAL || 'mongodb://localhost:27017/worker_genius'
     const connect = mongoose.createConnection(host, { 
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -124,6 +124,13 @@ class Server {
     new routes.bills.DeleteBill(this.app, this.connect, this.apiPrefix)
     new routes.bills.ListBill(this.app, this.connect, this.apiPrefix)
 
+    // works
+    new routes.works.NewWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.ShowWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.EditWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.ListWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.DeleteWork(this.app, this.connect, this.apiPrefix)
+    
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,
