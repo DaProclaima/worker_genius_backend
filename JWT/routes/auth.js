@@ -9,7 +9,7 @@ const { generateAccessToken, generateRefreshToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/authorization')
 
 dotenv.config()
-const host = process.env.DB_CONNECT_LOCAL
+const host = process.env.DB_CONNECT || 'mongodb://localhost:27017/worker_genius'
 
 // connect to db
 const connect = mongoose.createConnection(host, 
