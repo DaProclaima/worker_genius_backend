@@ -9,7 +9,7 @@ const { generateAccessToken, generateRefreshToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/authorization')
 
 dotenv.config()
-const host = process.env.DB_CONNECT || DB_CONNECT_LOCAL 
+const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL 
 
 // connect to db
 const connect = mongoose.createConnection(host, 
