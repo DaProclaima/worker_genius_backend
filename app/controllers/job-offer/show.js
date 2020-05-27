@@ -17,7 +17,7 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/job-offer/show/:slug`, (req, res) => {
+    this.app.get(`${this.apiPrefix}/job-offer/show/:slug`, async (req, res) => {
       const { slug } = req.params
       // res.status(200).json(req.params)
       let query = this.JobOfferModel.where({

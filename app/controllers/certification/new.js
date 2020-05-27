@@ -33,10 +33,10 @@ class New {
         certificationModel.setSlug()
         await res.status(201).send({certificationModel})
         certificationModel.save()
-      } catch (err) {
+      } catch (error) {
         res.status(500).json({
           'code': 500,
-          'message': err
+          'message': error
         })
       }
     })

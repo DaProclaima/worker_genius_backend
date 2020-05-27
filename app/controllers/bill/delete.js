@@ -17,7 +17,7 @@ class Delete {
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, async (req, res) => {
       try {
         const { id } = req.params
         this.MsgModel.findByIdAndDelete(id)

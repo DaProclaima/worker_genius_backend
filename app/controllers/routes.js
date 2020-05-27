@@ -1,9 +1,10 @@
 // Users
-const NewUser = require('./user/new')
+// const NewUser = require('./user/new')
 const ShowUser = require('./user/show')
 const EditUser = require('./user/edit')
 const DeleteUser = require('./user/delete')
 const ListUser = require('./user/list')
+const EditUserPassword = require('./user/password/edit')
 
 // Certifications
 const NewCertification = require('./certification/new')
@@ -45,11 +46,11 @@ const DeleteWork = require('./work/delete')
 
 module.exports = {
   users: {
-    NewUser,
     ShowUser,
     EditUser,
     DeleteUser,
-    ListUser
+    ListUser,
+    EditUserPassword
   },
   certifications: {
     NewCertification,

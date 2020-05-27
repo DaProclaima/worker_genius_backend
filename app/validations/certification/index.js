@@ -8,8 +8,7 @@ const validationNew = data => {
     project: Joi.string(),
     list_prerequisites: Joi.array().has(String),
     picture: Joi.string().min(6).max(155),
-    list_languages: Joi.array(),
-    creator_id: Joi.string()
+    list_languages: Joi.array()
   })
   return schema.validate(data)
 }

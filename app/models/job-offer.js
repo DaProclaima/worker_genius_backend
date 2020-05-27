@@ -4,14 +4,14 @@ const mongoose = require('mongoose')
 // const jwt = new JWT()
 const Schema = mongoose.Schema
 // const Mixed = Schema.Types.Mixed
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 
 const JobOfferSchema = new Schema({
   title: String,
   level: String,
   slug: String,
-  publisher: ObjectId,
-  list_candidates: [ObjectId], // candidate and hour they replied
+  publisher: String, // todo id
+  list_candidates: [String], // candidate and hour they replied // todo id
   street__num_name: String,
   city_name: String,
   department: String,
@@ -27,7 +27,7 @@ const JobOfferSchema = new Schema({
   length_unit: String,
   is_fulfilled: Boolean,
   is_archived: Boolean,
-  list_required_certifications: [ObjectId],
+  list_required_certifications: [String], // todo id
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
@@ -58,7 +58,7 @@ JobOfferSchema.methods.getTitle = function () {
 }
 
 JobOfferSchema.methods.setSlug = function (id) {
-  this.slug = `${generateSlug(this.getCompanyName())}_${generateSlug(this.getTitle())}_${id}`
+  this.slug = `${generateSlug(this.getTitle())}-${id}`
   return this
 }
 

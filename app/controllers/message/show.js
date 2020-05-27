@@ -19,11 +19,10 @@ class Show {
     this.app.get(`${this.apiPrefix}/message/show/:id`, async (req, res) => {
       try {
         const { id } = req.params
-        // await res.status(201).send({ body })
-        this.MsgModel.findById(id).then(msg => {
+
+        await this.MsgModel.findById(id).then(msg => {
           res.status(200).json(msg || {})
         })
-        // throw new Error('Error from server while processing new job offer creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 

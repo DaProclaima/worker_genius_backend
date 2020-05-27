@@ -17,7 +17,7 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/certification/show/:slug`, (req, res) => {
+    this.app.get(`${this.apiPrefix}/certification/show/:slug`, async (req, res) => {
       const { slug } = req.params
       let query = this.CertificationModel.where({slug: slug})
       query.findOne(function (_, certification) {

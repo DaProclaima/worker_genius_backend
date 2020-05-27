@@ -59,15 +59,24 @@ In an other tab:
 
 Want to stop the app ? Just type CTRL + C
 
+
+### Socket-io for chat
+- message will use this protocol for chat feature between company and candidate
+
 ## How to use this RESTful HTTP API
 
 ### Explanations
 This API exposes these entities:
+- application ( not ready, represents the request a candidate submit to a company 's job offer)
+- bill ( not ready but represents the bill a company receives when it pays our services)
 - certification
-- user
-- message
-- job-offer
 - email
+- job-offer
+- office (not ready but represents where a candidate performs his work to get the certification)
+- payment-option (not ready)
+- refreshToken
+- user
+- work
 
 #### Role of each entity
 
@@ -108,7 +117,8 @@ To perform a CRUD on these entities, you need to use this syntax:
 - LIST an object with GET http method : http://localhost/3010/api/v1/certification/list
 
 #### CRUD for user
-- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/user/new/
+- register creation of an object with PUT http method : http://localhost/3011/api/v1/user/register/
+- login creation of an object with PUT http method : http://localhost/3011/api/v1/user/login/
 - EDIT an object with POST http method : http://localhost/3010/api/v1/user/edit/:slug
 - SHOW an object with GET http method : http://localhost/3010/api/v1/user/show/:slug
 - DELETE an object with DELETE http method : http://localhost/3010/api/v1/user/delete/:slug
@@ -131,6 +141,12 @@ To perform a CRUD on these entities, you need to use this syntax:
 #### CRUD for email (there is only a POST method existing)
 - NEW creation of an object with PUT http method : http://localhost/3010/api/v1/email/new/
 
+#### CRUD for work that is the provided work of a candidate for a certification
+- NEW creation of an object with PUT http method : http://localhost/3010/api/v1/work/new/
+- EDIT an object with POST http method : http://localhost/3010/api/v1/work/edit/:slug
+- SHOW an object with GET http method : http://localhost/3010/api/v1/work/show/:slug
+- DELETE an object with DELETE http method : http://localhost/3010/api/v1/work/delete/:slug
+- LIST an object with GET http method : http://localhost/3010/api/v1/work/list
 
 ### Example of use
 Let us take an example and use [POSTMAN REST Client application](https://www.postman.com/), and use [Compass](https://www.mongodb.com/products/compass) for MongoDB .

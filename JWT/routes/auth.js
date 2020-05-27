@@ -49,9 +49,13 @@ router.post('/register', async (req, res) => {
   // check repeat password with password
 
   // Validate schema before to make an user
-  const { error } = registerValidation(req.body)
-  if (error) { 
-    return res.status(403).send(error.details[0].message)
+  try {
+    const { error } = registerValidation(req.body)
+    if (error) { 
+      return res.status(403).send(error.details[0].message)
+    }
+  } catch (error) {
+    console.log(error)
   }
 
   // Check if user is already in db
@@ -63,29 +67,25 @@ router.post('/register', async (req, res) => {
   // hash the password
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
+  
   const user = {
-    name: req.body.name,
+    first_name: req.body.name,
     email: req.body.email,
     username: req.body.username,
     hash: hashedPassword
   }
+
   try {
     const userModel = new UserModel(user)
     userModel.setSlug()
-      res.send({user: user._id})
+    // res.send({user: user._id})
     res.status(201).send({userModel})
     await userModel.save()
+    // todo needs to create session from now to keep user logged in
   } catch (err) {
     console.log(err)
     res.status(400).send({'message': err})
   }
-  // try {
-  //   await user.save()
-  //   res.send({user: user._id})
-  // } catch (err) {
-  //   console.log(err)
-  //   res.status(400).send(err)
-  // }
 })
 
 // Login
@@ -125,8 +125,7 @@ router.post('/login', async (req, res) => {
   // check if password is correct
 })
 
-router.post('/token/extend', (req, res) => {
-  const refreshToken
+router.post('/token/extend', async (req, res) => {
   try {
     listRefreshTokens = refreshTokenModel.find({}, function (err, result) {
       if (err) {
@@ -165,7 +164,7 @@ router.post('/token/extend', (req, res) => {
   })
 })
 
-router.delete('/logout', (req, res) => {
+router.delete('/logout', async (req, res) => {
   try {
     RefreshTokenModel.findOneAndDelete({string: req.body.token}).then(model => {
       res.status(200).json(model || {})
