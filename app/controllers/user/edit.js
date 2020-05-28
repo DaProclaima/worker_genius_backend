@@ -89,6 +89,7 @@ class Edit {
         omitUndefined: true
       }).then(model => {  
         model.setSlug()
+        model.delete.hash
         res.status(200).json(model || {})
       }).catch(err => {
         res.status(500).json({

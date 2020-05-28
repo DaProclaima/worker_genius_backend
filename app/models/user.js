@@ -12,6 +12,8 @@ const UserSchema = new Schema({
   last_name: String,
   email: { type: String, unique: true, required: true },
   hash: String,
+  birth_date: Date, // TODO add to validator
+  phone_number: String, // TODO add to validator
   user_type: [String],
   street_name_num: String,
   city_name: String,
