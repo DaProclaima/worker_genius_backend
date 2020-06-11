@@ -3,6 +3,7 @@ const routes = require('./controllers/routes.js')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const path = require('path')
 dotenv.config()
 // const path = require('path')
 // const fetch = require('node-fetch')
@@ -80,6 +81,9 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
+    this.app.get('/socket-test', function (_, res) {
+      res.sendFile(path.join(__dirname, '../socket_io_app/index.html'))
+    })
   }
 
   /**
