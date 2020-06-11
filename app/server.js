@@ -81,6 +81,7 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
+    this.app.use('/socket', express.static(path.join(__dirname, '../socket_io_app/')))
     this.app.get('/socket-test', function (_, res) {
       res.sendFile(path.join(__dirname, '../socket_io_app/index.html'))
     })
