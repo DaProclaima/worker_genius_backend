@@ -19,14 +19,14 @@ const JobOfferSchema = new Schema({
   company_name: String,
   description: String,
   number_views: Number,
-  number_replies: Number,
+  profile_description: String, // TODO
+  list_applications: Number,
   picture: String,
   salary_per_year: Number,
   contract_type: String,
   mission_length: Number,
   length_unit: String,
   is_fulfilled: Boolean,
-  is_archived: Boolean,
   list_required_certifications: [String], // todo id
   creation_date: { type: Date, default: Date.now },
   last_update: Date
@@ -196,12 +196,12 @@ JobOfferSchema.methods.addNumberViews = function () {
 }
 
 JobOfferSchema.methods.initNumberReplies = function () {
-  this.number_replies = 0
+  this.list_applications = 0
   return this
 }
 
 JobOfferSchema.methods.addNumberReplies = function () {
-  this.number_replies += 1
+  this.list_applications += 1
   return this
 }
 
@@ -324,22 +324,6 @@ JobOfferSchema.methods.setIsFulfilled = function (bool) {
 
 JobOfferSchema.methods.getIsFulfilled = function () {
   return this.is_fulfilled
-}
-
-JobOfferSchema.methods.setIsArchived = function (bool) {
-  try {
-    if (bool === true || bool === false) {
-      this.is_archived = bool
-      return this
-    }
-    throw new Error('The archived status given for the job offer should be true or false.')
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-JobOfferSchema.methods.getIsArchived = function () {
-  return this.is_archived 
 }
 
 JobOfferSchema.methods.addOneRequiredCertification = function (id) {

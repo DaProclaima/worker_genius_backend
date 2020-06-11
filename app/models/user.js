@@ -20,12 +20,12 @@ const UserSchema = new Schema({
   department_name: String,
   country_name: String,
   company_name: String,
-  company_vat: String,
+  company_registration_number: String, // TODO https://data.opendatasoft.com/explore/dataset/sirene_v3%40public/api/?disjunctive.libellecommuneetablissement&disjunctive.etatadministratifetablissement&disjunctive.sectionetablissement&disjunctive.naturejuridiqueunitelegale&sort=prenom1unitelegale&q=847696416+00019 => https://data.opendatasoft.com/api/records/1.0/search/?dataset=sirene_v3%40public&q=84769641600019&lang=fr&sort=prenom1unitelegale&facet=naturejuridiqueunitelegale if nhits > 0 then number exists
   resume: Mixed,
   slug: String,
   profile_consultation_counter: Number,
   profile_picture: String,
-  list_skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
+  skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
   list_certifications: [String], // TODO ObjectId
   list_replied_job: [String], // TODO ObjectId
   list_posted_job: [String], // TODO ObjectId
@@ -96,13 +96,19 @@ UserSchema.methods.getHash = function () {
 UserSchema.methods.addUserType = function (type) {
   if (type === assertType.checkString(type, 'User type')) {
     if (this.user_type.indexOf(type) < 1) {
-      if (type === 'admin') {
+      if (type === 'ADMIN') {
         this.user_type = type
         return this
-      } else if (type === 'candidate') {
+      } else if (type === 'CANDIDATE') {
         this.user_type = type
         return this
-      } else if (type === 'enterprise') {
+      } else if (type === 'COMPANY') {
+        this.user_type = type
+        return this
+      } else if (type === 'WATCHER') {
+        this.user_type = type
+        return this
+      } else if (type === 'TEST_WRITER') {
         this.user_type = type
         return this
       } else {
@@ -172,12 +178,12 @@ UserSchema.methods.getCompanyName = function () {
 }
 
 UserSchema.methods.setCompanyVat = function (vat) {
-  this.company_vat = assertType.checkString(vat, 'Company VAT')
+  this.company_registration_number = assertType.checkString(vat, 'Company VAT')
   return this
 }
 
 UserSchema.methods.getCompanyVat = function () {
-  return this.company_vat
+  return this.company_registration_number
 }
 
 UserSchema.methods.setResume = function (resume) {
@@ -227,8 +233,8 @@ UserSchema.methods.getProfilePicture = function () {
 
 UserSchema.methods.addSkill = function (skill) {
   if (skill === assertType.checkString(skill, 'Skill')) {
-    if (this.list_skills.indexOf(skill) < 1) {
-      this.list_skills.push(skill)
+    if (this.skills.indexOf(skill) < 1) {
+      this.skills.push(skill)
       return this
     }
   }
@@ -236,9 +242,9 @@ UserSchema.methods.addSkill = function (skill) {
 
 UserSchema.methods.removeSkill = function (skill) {
   if (skill === assertType.checkString(skill, 'Skill')) {
-    let index = this.list_skills.indexOf(skill)
+    let index = this.skills.indexOf(skill)
     if (index !== null) {
-      this.list_skills.splice(index)
+      this.skills.splice(index)
       return this
     } else {
       console.error(new Error('The given skill to remove does not exist.'))
@@ -247,7 +253,7 @@ UserSchema.methods.removeSkill = function (skill) {
 }
 
 UserSchema.methods.getListSkills = function () {
-  return this.list_skills
+  return this.skills
 }
 
 UserSchema.methods.addCertification = function (certification) {

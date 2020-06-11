@@ -9,6 +9,7 @@ const MessageSchema = new Schema({
   expeditor_id: String, // ObjectId
   receiver_id: String, // ObjectId
   content: String,
+  attachments_list: Array, // TODO 
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {

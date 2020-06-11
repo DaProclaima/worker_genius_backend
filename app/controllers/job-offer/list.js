@@ -18,9 +18,9 @@ class List {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/job-offer/list`, (_, res) => {
+    this.app.get(`${this.apiPrefix}/job-offer/list`, (req, res) => {
       try {
-        this.JobOfferModel.find({}, function (err, result) {
+        this.JobOfferModel.find({'title': req.body.title}, function (err, result) {
           if (err) {
             console.error(err)
             

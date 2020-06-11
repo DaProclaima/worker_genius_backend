@@ -45,14 +45,13 @@ class Edit {
       if (body.company_name) updateObj.company_name = body.company_name
       if (body.description) updateObj.description = body.description
       if (body.number_views) updateObj.number_views = body.number_views
-      if (body.number_replies) updateObj.number_replies = body.number_replies
+      if (body.list_applications) updateObj.list_applications = body.list_applications
       if (body.picture) updateObj.picture = body.picture
       if (body.salary_per_year) updateObj.salary_per_year = body.salary_per_year
       if (body.contract_type) updateObj.contract_type = body.contract_type
       if (body.mission_length) updateObj.mission_length = body.mission_length
       if (body.length_unit) updateObj.length_unit = body.length_unit
       if (body.is_fulfilled) updateObj.is_fulfilled = body.is_fulfilled
-      if (body.is_archived) updateObj.is_archived = body.is_archived
       if (body.list_required_certifications) updateObj.list_required_certifications = body.list_required_certifications
       console.log(updateObj)
       this.JobOfferModel.findOneAndUpdate(
@@ -71,14 +70,13 @@ class Edit {
           company_name: updateObj.company_name,
           description: updateObj.description,
           number_views: updateObj.number_views,
-          number_replies: updateObj.number_replies,
+          list_applications: updateObj.list_applications,
           picture: updateObj.picture,
           salary_per_year: updateObj.salary_per_year,
           contract_type: updateObj.contract_type,
           mission_length: updateObj.mission_length,
           length_unit: updateObj.length_unit,
           is_fulfilled: updateObj.is_fulfilled,
-          is_archived: updateObj.is_archived,
           list_required_certifications: updateObj.list_required_certifications,
           last_update: Date.now()
         }, {
