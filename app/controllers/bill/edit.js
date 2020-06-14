@@ -16,18 +16,16 @@ class Edit {
    * middleware
    */
   middleware () {
-    this.app.put(`${this.apiPrefix}/bill/edit/:id`, (req, res) => {
+    this.app.put(`${this.apiPrefix}/bill/edit/:id`, async (req, res) => {
       const { id } = req.params 
       const { body } = req
 
       this.BillModel.findByIdAndUpdate(id, {
-        $set: {
-          amount: body.amount,
-          payment_option: body.payment_option,
-          money_currency: body.money_currency,
-          list_privileges: body.list_privileges,
-          last_update: Date.now()
-        }
+        amount: body.amount,
+        payment_option: body.payment_option,
+        money_currency: body.money_currency,
+        list_privileges: body.list_privileges,
+        last_update: Date.now()
       }, {
         new: true
       }).then(model => {

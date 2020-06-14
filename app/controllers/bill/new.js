@@ -21,7 +21,7 @@ class New {
       // await res.status(201).send({ body })
       const billModel = new this.BillModel(body)
       try {
-        if(billModel) {
+        if (billModel) {
           await res.status(201).send({ billModel })
           billModel.save()
           return

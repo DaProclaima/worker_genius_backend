@@ -2,6 +2,8 @@ const express = require('express')
 const routes = require('./controllers/routes.js')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config()
 // const path = require('path')
 // const fetch = require('node-fetch')
 
@@ -12,7 +14,7 @@ const mongoose = require('mongoose')
 class Server {
   constructor () {
     this.app = express()
-    this.port = 3010
+    this.port = process.env.API_SERVER_PORT
     this.apiPrefix = '/api/v1'
   }
 
@@ -39,11 +41,12 @@ class Server {
    * @return {Object} connect
    */
   dbConnect () {
-    const host = 'mongodb://localhost:27017/worker_genius'
+    const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
     const connect = mongoose.createConnection(host, { 
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useFindAndModify: false,
+      useCreateIndex: true
     })
   
     connect.on('error', (err) => {
@@ -84,9 +87,10 @@ class Server {
    */
   routes () {
     // Users
-    new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
+    // new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
     new routes.users.ShowUser(this.app, this.connect, this.apiPrefix)
     new routes.users.EditUser(this.app, this.connect, this.apiPrefix)
+    new routes.users.EditUserPassword(this.app, this.connect, this.apiPrefix)
     new routes.users.DeleteUser(this.app, this.connect, this.apiPrefix)
     new routes.users.ListUser(this.app, this.connect, this.apiPrefix)
 
@@ -121,6 +125,13 @@ class Server {
     new routes.bills.DeleteBill(this.app, this.connect, this.apiPrefix)
     new routes.bills.ListBill(this.app, this.connect, this.apiPrefix)
 
+    // works
+    new routes.works.NewWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.ShowWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.EditWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.ListWork(this.app, this.connect, this.apiPrefix)
+    new routes.works.DeleteWork(this.app, this.connect, this.apiPrefix)
+    
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,

@@ -1,13 +1,13 @@
 const assertType = require('../helpers/assertType')
 const mongoose = require('mongoose')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
+// const auth = require('../auth')
+// const auth = new auth()
 const Schema = mongoose.Schema
 // const ObjectId = Schema.ObjectId
 
 const MessageSchema = new Schema({
-  expeditor: String, // ObjectId
-  receiver: String, // ObjectId
+  expeditor_id: String, // ObjectId
+  receiver_id: String, // ObjectId
   content: String,
   creation_date: { type: Date, default: Date.now },
   last_update: Date

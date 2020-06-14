@@ -19,7 +19,7 @@ class New {
     this.app.post(`${this.apiPrefix}/email/new`, async (req, res) => {
       const emailModel = new this.EmailModel(req.body)
       try {
-        if(emailModel) {
+        if (emailModel) {
           await res.status(201).send({ emailModel })
           emailModel.save()
           return

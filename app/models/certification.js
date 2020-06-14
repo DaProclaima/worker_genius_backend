@@ -1,7 +1,7 @@
 const assertType = require('../helpers/assertType')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 const Mixed = Schema.Types.Mixed
 const generateSlug = require('../helpers/generateSlug')
 
@@ -14,7 +14,7 @@ const CertificationSchema = new Schema({
   list_prerequisites: [String],
   picture: String,
   list_languages: [String],
-  creatorId: [ObjectId], // will take the Id of the creator,
+  creator_id: [String], // will take the Id of the creator,
   creation_date: { type: Date, default: Date.now },
   last_update: Date,
   is_granted: Boolean

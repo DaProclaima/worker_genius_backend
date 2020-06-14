@@ -1,9 +1,10 @@
 // Users
-const NewUser = require('./user/new')
+// const NewUser = require('./user/new')
 const ShowUser = require('./user/show')
 const EditUser = require('./user/edit')
 const DeleteUser = require('./user/delete')
 const ListUser = require('./user/list')
+const EditUserPassword = require('./user/password/edit')
 
 // Certifications
 const NewCertification = require('./certification/new')
@@ -36,13 +37,20 @@ const EditBill = require('./bill/edit')
 const DeleteBill = require('./bill/delete')
 const ListBill = require('./bill/list')
 
+//  Works
+const NewWork = require('./work/new')
+const ShowWork = require('./work/show')
+const EditWork = require('./work/edit')
+const ListWork = require('./work/list')
+const DeleteWork = require('./work/delete')
+
 module.exports = {
   users: {
-    NewUser,
     ShowUser,
     EditUser,
     DeleteUser,
-    ListUser
+    ListUser,
+    EditUserPassword
   },
   certifications: {
     NewCertification,
@@ -74,5 +82,12 @@ module.exports = {
     EditBill,
     DeleteBill,
     ListBill
+  },
+  works: {
+    NewWork,
+    ShowWork,
+    EditWork,
+    DeleteWork,
+    ListWork
   }
 }

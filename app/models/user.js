@@ -2,36 +2,40 @@ const assertType = require('../helpers/assertType')
 const generateSlug = require('../helpers/generateSlug')
 const mongoose = require('mongoose')
 const listManager = require('../helpers/listManager')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, required: false },
+  username: { type: String, unique: true, required: true },
   first_name: String,
   last_name: String,
   email: { type: String, unique: true, required: true },
   hash: String,
-  user_type: { type: [String], required: true, enum: ['admin', 'candidate', 'enterprise', 'watcher'] },
-  street_name: String,
+  birth_date: Date, // TODO add to validator
+  phone_number: String, // TODO add to validator
+  user_type: [String],
+  street_name_num: String,
   city_name: String,
   department_name: String,
   country_name: String,
   company_name: String,
   company_vat: String,
   resume: Mixed,
+  slug: String,
   profile_consultation_counter: Number,
   profile_picture: String,
   list_skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
-  list_certifications: [ObjectId],
-  list_replied_job: [ObjectId],
-  list_posted_job: [ObjectId],
-  list_bills: [ObjectId],
+  list_certifications: [String], // TODO ObjectId
+  list_replied_job: [String], // TODO ObjectId
+  list_posted_job: [String], // TODO ObjectId
+  list_bills: [String], // TODO ObjectId
+  list_works: [String], // TODO ObjectId
+  // TODO ObjectId
+  list_watched_candidates: [String], // TODO ObjectId
   creation_date: { type: Date, default: Date.now },
-  last_update: Date,
-  job_offers_counter: Number
+  last_update: Date
+  // token: String // TODO: will it stay here ??
 
 }, {
   collection: 'users', 
@@ -190,8 +194,8 @@ UserSchema.methods.getId = function () {
   return this._id
 }
 
-UserSchema.methods.setSlug = function (num) {
-  this.username = `${generateSlug(this.getFullName())}-${num}`
+UserSchema.methods.setSlug = function () {
+  this.slug = generateSlug(this.username)
   return this
 }
 
@@ -347,30 +351,8 @@ UserSchema.methods.getLastUpdate = function () {
   return this.last_update
 }
 
-UserSchema.methods.setJobOffers = function (num) {
-  this.job_offers += num
-  return this
-}
-
-UserSchema.methods.getJobOffers = function () {
-  return this.job_offers
-}
-
-UserSchema.methods.getLastUpdate = function () {
-  return this.last_update
-}
-
 UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
 }
-
-// UserSchema.methods.generateAuthToken = async function () {
-//   // Generate an auth token for the user
-//   const user = this
-//   const token = jwt.JWTgenerator(user)
-//   user.token = token
-//   await user.save()
-//   return token
-// }
 
 module.exports = UserSchema

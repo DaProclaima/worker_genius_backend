@@ -1,17 +1,17 @@
 const generateSlug = require('../helpers/generateSlug')
 const mongoose = require('mongoose')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
+// const auth = require('../auth')
+// const auth = new auth()
 const Schema = mongoose.Schema
 // const Mixed = Schema.Types.Mixed
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 
 const JobOfferSchema = new Schema({
   title: String,
   level: String,
   slug: String,
-  publisher: ObjectId,
-  list_candidates: [ObjectId], // candidate and hour they replied
+  publisher: String, // todo id
+  list_candidates: [String], // candidate and hour they replied // todo id
   street__num_name: String,
   city_name: String,
   department: String,
@@ -27,7 +27,7 @@ const JobOfferSchema = new Schema({
   length_unit: String,
   is_fulfilled: Boolean,
   is_archived: Boolean,
-  list_required_certifications: [ObjectId],
+  list_required_certifications: [String], // todo id
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
@@ -57,8 +57,8 @@ JobOfferSchema.methods.getTitle = function () {
   return this.title
 }
 
-JobOfferSchema.methods.setSlug = function (num) {
-  this.slug = `${generateSlug(this.getTitle())}_${num}`
+JobOfferSchema.methods.setSlug = function (id) {
+  this.slug = `${generateSlug(this.getTitle())}-${id}`
   return this
 }
 
@@ -375,7 +375,7 @@ JobOfferSchema.methods.getLastUpdate = function () {
 // UserSchema.methods.generateAuthToken = async function () {
 //   // Generate an auth token for the user
 //   const user = this
-//   const token = jwt.JWTgenerator(user)
+//   const token = auth.JWTgenerator(user)
 //   user.token = token
 //   await user.save()
 //   return token
