@@ -1,6 +1,6 @@
 const Message = require('../../models/message')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 
 /**
  * Create
@@ -17,7 +17,7 @@ class Delete {
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/message/delete/:id`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/message/delete/:id`, async (req, res) => {
       try {
         const { id } = req.params
         this.MsgModel.findByIdAndDelete(id)

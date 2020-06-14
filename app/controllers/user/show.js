@@ -1,6 +1,6 @@
 const User = require('../../models/user')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 
 /**
  * Create
@@ -11,7 +11,7 @@ class Show {
     this.app = app
     this.apiPrefix = apiPrefix
     this.UserModel = connect.model('User', User)
-
+    // console.log(this)
     this.run()
   }
 
@@ -19,19 +19,32 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/user/show/:slug`, (req, res) => {
-      const { slug } = req.params
-      let query = this.UserModel.where({slug: slug})
-      query.findOne(function (_, model) {
-        if (model) {
-          res.status(200).json(model || {})
+    this.app.get(`${this.apiPrefix}/user/show/:id`, async (req, res) => {
+      try {
+        const { id } = req.params
+        var query = {$or: [{slug: id}]}
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          query.$or.push({_id: id})
         }
-      }).catch(err => {
-        res.status(500).json({
-          'code': 500,
-          'message': err
+        
+        await this.UserModel.find(query).then(model => {
+          res.status(200).json(model || {})
+          // console.log(model)
         })
-      })
+          .catch(err => {
+            res.status(500).json({
+              code: 500,
+              error: err
+            })
+          })
+      } catch (err) {
+        console.error(err) // For debugging reasons
+
+        return res.status(500).send({
+          error: 'GENERIC',
+          description: 'Something went wrong. Please try again or contact support.'
+        })
+      }
     })
   }
 

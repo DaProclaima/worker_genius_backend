@@ -1,6 +1,6 @@
 const User = require('../../models/user')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 
 /**
  * Delete
@@ -17,12 +17,23 @@ class Delete {
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/user/delete/:slug`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/user/delete/:id`, async (req, res) => {
       try {
-        const { slug } = req.params
-        this.UserModel.findOneAndDelete({slug: slug})
+        const { id } = req.params
+        var query = {$or: [{slug: id}]}
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          query.$or.push({_id: id})
+        }
+
+        this.UserModel.findOneAndDelete(query)
           .then(model => {
             res.status(200).json(model || {})
+          })
+          .catch(err => {
+            res.send({
+              code: 500,
+              error: err
+            })
           })
       } catch (err) {
         res.status(500).json({

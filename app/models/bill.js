@@ -1,8 +1,8 @@
 const assertType = require('../helpers/assertType')
 const mongoose = require('mongoose')
 const listManager = require('../helpers/listManager')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
+// const auth = require('../auth')
+// const auth = new auth()
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 

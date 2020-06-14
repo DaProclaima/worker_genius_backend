@@ -63,6 +63,11 @@ router.post('/register', async (req, res) => {
     return res.status(400).send('Email already exists.')
   }
 
+  const usernameExist = await UserModel.findOne({username: req.body.username})
+  if (usernameExist) {
+    return res.status(400).send('Username already exists.')
+  }
+
   // hash the password
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
@@ -77,7 +82,6 @@ router.post('/register', async (req, res) => {
   try {
     const userModel = new UserModel(user)
     userModel.setSlug()
-    // res.send({user: user._id})
     await userModel.save()
     delete userModel.hash
     res.status(201).send({userModel})
@@ -91,7 +95,8 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   const { error } = loginValidation(req.body)
-  if (error) { 
+  if (error) {
+    console.log(error)
     return res.status(403).send(error.details[0].message)
   }
 
@@ -133,6 +138,7 @@ router.post('/token/extend', async (req, res) => {
   try {
     const listRefreshTokens = RefreshTokenModel.find({}, function (err, result) {
       if (err) {
+        console.error(err)
         res.status(500).json({
           'code': 500,
           'message': err

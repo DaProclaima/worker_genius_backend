@@ -1,6 +1,7 @@
-const Bill = require('../../models/bill')
+const Work = require('../../models/work')
 // const auth = require('../../auth.js')
 // const auth = new auth()
+
 /**
  * Create
  * @class
@@ -9,24 +10,25 @@ class Delete {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.BillModel = connect.model('Bill', Bill)
+    this.MsgModel = connect.model('Work', Work)
     this.run()
   }
   /**
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/bill/delete/:id`, async (req, res) => {
+    this.app.delete(`${this.apiPrefix}/work/delete/:id`, async (req, res) => {
       try {
         const { id } = req.params
-        this.BillModel.findByIdAndDelete(id)
+        this.MsgModel.findByIdAndDelete(id)
           .then(model => {
             res.status(200).json(model || {})
           })
       } catch (err) {
+        console.log(err)
         res.status(500).json({
           'code': 500,
-          'message': err
+          'work': err
         })
       }
     })

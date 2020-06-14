@@ -1,6 +1,6 @@
 const JobOffer = require('../../models/job-offer')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 /**
  * Delete
  * @class
@@ -16,7 +16,7 @@ class Delete {
    * middleware
    */
   middleware () {
-    this.app.delete(`${this.apiPrefix}/job-offer/delete/:slug`, (req, res) => {
+    this.app.delete(`${this.apiPrefix}/job-offer/delete/:slug`, async (req, res) => {
       try {
         const { slug } = req.params
         this.JobOfferModel.findOneAndDelete({slug: slug})

@@ -1,16 +1,16 @@
-const Certification = require('../../models/certification')
+const Work = require('../../models/work')
 // const auth = require('../../auth.js')
 // const auth = new auth()
 
 /**
- * Create
+ * List
  * @class
  */
 class List {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.CertificationModel = connect.model('Certification', Certification)
+    this.Model = connect.model('Work', Work)
     this.run()
   }
 
@@ -18,10 +18,12 @@ class List {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/certification/list`, (_, res) => {
+    this.app.get(`${this.apiPrefix}/work/list`, (_, res) => {
       try {
-        this.CertificationModel.find({}, function (err, result) {
+        this.Model.find({}, function (err, result) {
           if (err) {
+            console.error(err)
+            
             res.status(500).json({
               'code': 500,
               'message': err

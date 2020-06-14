@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const listManager = require('../helpers/listManager')
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
-const ObjectId = Schema.ObjectId
+// const ObjectId = Schema.ObjectId
 
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true },
@@ -12,8 +12,10 @@ const UserSchema = new Schema({
   last_name: String,
   email: { type: String, unique: true, required: true },
   hash: String,
+  birth_date: Date, // TODO add to validator
+  phone_number: String, // TODO add to validator
   user_type: [String],
-  street_name: String,
+  street_name_num: String,
   city_name: String,
   department_name: String,
   country_name: String,
@@ -24,13 +26,16 @@ const UserSchema = new Schema({
   profile_consultation_counter: Number,
   profile_picture: String,
   list_skills: [String], // TODO: will become a model for v2 ( creation date, title, id, list_has_candidates)
-  list_certifications: [ObjectId],
-  list_replied_job: [ObjectId],
-  list_posted_job: [ObjectId],
-  list_bills: [ObjectId],
+  list_certifications: [String], // TODO ObjectId
+  list_replied_job: [String], // TODO ObjectId
+  list_posted_job: [String], // TODO ObjectId
+  list_bills: [String], // TODO ObjectId
+  list_works: [String], // TODO ObjectId
+  // TODO ObjectId
+  list_watched_candidates: [String], // TODO ObjectId
   creation_date: { type: Date, default: Date.now },
-  last_update: Date,
-  token: String
+  last_update: Date
+  // token: String // TODO: will it stay here ??
 
 }, {
   collection: 'users', 

@@ -16,10 +16,10 @@ class Edit {
    * middleware
    */
   middleware () {
-    this.app.put(`${this.apiPrefix}/message/edit/:id`, (req, res) => {
+    this.app.put(`${this.apiPrefix}/message/edit/:id`, async (req, res) => {
       const { id } = req.params 
       const { body } = req
-
+      // TODO update field
       this.MsgModel.findByIdAndUpdate(id, {
         $set: {
           content: body.content

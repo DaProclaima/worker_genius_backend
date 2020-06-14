@@ -13,7 +13,10 @@
     "dev": "yarn lint && nodemon index.js",
     "test": "nyc  --reporter=html --reporter=text mocha",
     "lint": "eslint --fix .eslintrc.js .eslintignore ./app/ index.js",
-    "start-auth": "node ./JWT/server.js"
+    "start:auth": "node app/auth/server.js",
+    "dev:auth": "nodemon app/auth/server.js",
+    "start:discuss": "node app/discussion/server.js",
+    "dev:discuss": "nodemon app/discussion/server.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -30,15 +33,18 @@
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
+    "moment": "^2.26.0",
     "mongoose": "^5.9.10",
     "mpath": "^0.5.1",
     "ms": "^2.1.2",
     "node": "^10.9.0",
     "node-fetch": "^2.6.0",
     "node-validator": "0.1.27",
-    "slugify": "^1.4.0"
+    "slugify": "^1.4.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "cypress": "^4.7.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.12.0",
@@ -49,7 +55,7 @@
     "mocha": "^7.1.2",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
-    "nyc": "^15.0.1"
+    "nyc": "^15.1.0"
   },
   "description": "This application is the backend part of Worker Genius, developed by Jean-Baptiste VESLEER and Sébastien NOBOUR.\r They are both student at My Digital School Paris 19e, France.",
   "bugs": {

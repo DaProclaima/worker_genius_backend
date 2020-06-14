@@ -1,4 +1,4 @@
-const Message = require('../../models/message')
+const Work = require('../../models/work')
 
 /**
  * Show
@@ -8,7 +8,7 @@ class Show {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.MsgModel = connect.model('Message', Message)
+    this.Model = connect.model('Work', Work)
     this.run()
   }
 
@@ -16,13 +16,14 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/message/show/:id`, async (req, res) => {
+    this.app.get(`${this.apiPrefix}/work/show/:id`, async (req, res) => {
       try {
         const { id } = req.params
-
-        await this.MsgModel.findById(id).then(msg => {
+        // await res.status(201).send({ body })
+        this.Model.findById(id).then(msg => {
           res.status(200).json(msg || {})
         })
+        // throw new Error('Error from server while processing new job offer creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 
