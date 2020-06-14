@@ -1,9 +1,10 @@
+const io = require('socket.io')
 const socket = io(`http://localhost:3011`)
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
 
-const name = prompt('What is your name?')
+const name = window.prompt('What is your name?')
 // console.log(name)
 appendMessage('You joined')
 socket.emit('new-user', name)
@@ -30,7 +31,7 @@ messageForm.addEventListener('submit', e => {
   messageInput.value = ''
 })
 
-function appendMessage(message) {
+function appendMessage (message) {
   const messageElement = document.createElement('div')
   messageElement.innerHTML = message
   messageContainer.append(messageElement)
