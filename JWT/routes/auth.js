@@ -3,13 +3,13 @@ const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const User = require('../../app/models/user')
+const User = require('../../models/user')
 const RefreshToken = require('../models/refreshToken')
 const { generateAccessToken, generateRefreshToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/authorization')
 
 dotenv.config()
-const host = process.env.DB_CONNECT_LOCAL
+const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL 
 
 // connect to db
 const connect = mongoose.createConnection(host, 
@@ -41,17 +41,20 @@ process.on('SIGINT', () => {
     process.exit(0)
   })
 })
-const refreshTokenModel = connect.model('RefreshToken', RefreshToken)
+const RefreshTokenModel = connect.model('RefreshToken', RefreshToken)
 const UserModel = connect.model('User', User)
-
 
 router.post('/register', async (req, res) => {
   // check repeat password with password
 
   // Validate schema before to make an user
-  const { error } = registerValidation(req.body)
-  if (error) { 
-    return res.status(403).send(error.details[0].message)
+  try {
+    const { error } = registerValidation(req.body)
+    if (error) { 
+      return res.status(403).send(error.details[0].message)
+    }
+  } catch (error) {
+    console.log(error)
   }
 
   // Check if user is already in db
@@ -63,29 +66,26 @@ router.post('/register', async (req, res) => {
   // hash the password
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
+  
   const user = {
-    name: req.body.name,
+    first_name: req.body.name,
     email: req.body.email,
     username: req.body.username,
     hash: hashedPassword
   }
+
   try {
     const userModel = new UserModel(user)
     userModel.setSlug()
-      res.send({user: user._id})
-    res.status(201).send({userModel})
+    // res.send({user: user._id})
     await userModel.save()
+    delete userModel.hash
+    res.status(201).send({userModel})
+    // todo needs to create session from now to keep user logged in
   } catch (err) {
     console.log(err)
     res.status(400).send({'message': err})
   }
-  // try {
-  //   await user.save()
-  //   res.send({user: user._id})
-  // } catch (err) {
-  //   console.log(err)
-  //   res.status(400).send(err)
-  // }
 })
 
 // Login
@@ -108,27 +108,30 @@ router.post('/login', async (req, res) => {
   }
 
   // Creates and assign a token
-  // const token = jwt.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET )
+  // const token = auth.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET )
   const accessToken = generateAccessToken({_id: user._id}, process.env.ACCESS_TOKEN_SECRET)
   const newRefreshToken = generateRefreshToken({_id: user._id}, process.env.REFRESH_TOKEN_SECRET)
-  
-  const dbRefreshToken = new refreshTokenModel(
+  const dbRefreshToken = new RefreshTokenModel(
     {
       user_id: user._id,
       string: newRefreshToken
     }
   )
-  dbRefreshToken.save()  
-  res.header({ 'auth-token': accessToken, 'refresh-token': newRefreshToken, 'id': user._id }).send(
-    {accessToken, newRefreshToken, user })
-
+  await dbRefreshToken.save()
+  res.header({
+    'auth-token': accessToken,
+    'refresh-token': newRefreshToken,
+    'id': user._id })
+    .send({
+      accessToken,
+      newRefreshToken,
+      user })
   // check if password is correct
 })
 
-router.post('/token/extend', (req, res) => {
-  const refreshToken
+router.post('/token/extend', async (req, res) => {
   try {
-    listRefreshTokens = refreshTokenModel.find({}, function (err, result) {
+    const listRefreshTokens = RefreshTokenModel.find({}, function (err, result) {
       if (err) {
         res.status(500).json({
           'code': 500,
@@ -138,39 +141,40 @@ router.post('/token/extend', (req, res) => {
         res.status(200).json(result)
       }
     })
+    const refreshToken = req.headers['refresh-token']
+    const id = req.headers['id']
+    if (refreshToken === null) {
+      return res.sendStatus(401)
+    }
+    const token = listRefreshTokens.map(token => token.user_id === id)
+    if (!token) {
+      if (!refreshToken === token.string) {
+        return res.sendStatus(403).json({
+          code: 403,
+          message: 'invalid token'
+        })
+      }
+      return res.sendStatus(403)
+    }
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(403)
+      }
+      const accessToken = generateAccessToken({user_id: id}, refreshToken)
+      res.header({'access-token': accessToken})
+    })
   } catch (err) {
     console.log(err)
   }
-  
-  const refreshToken = req.headers['refresh-token']
-  const id = req.headers['id']
-  if (refreshToken === null) {
-    return res.sendStatus(401)
-  }
-  if (!listRefreshTokens.map( token => token.user_id === id)) {
-    if(! refreshToken === token.string) {
-      return res.sendStatus(403).json({
-        code: 403,
-        message: 'invalid token'
-      })
-    }
-    return res.sendStatus(403)
-  }
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.sendStatus(403)
-    }
-    const accessToken = generateAccessToken({user_email: user.email})
-    res.json({accessToken: accessToken})
-  })
 })
 
-router.delete('/logout', (req, res) => {
+router.delete('/logout', async (req, res) => {
   try {
-    RefreshTokenModel.findOneAndDelete({string: req.body.token}).then(model => {
+    RefreshTokenModel.findOneAndDelete({string: req.headers['refresh-token']}).then(model => {
       res.status(200).json(model || {})
     })
   } catch (err) {
+    console.error(err)
     res.status(500).json({
       'code': 500,
       'message': err
