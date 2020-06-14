@@ -1,7 +1,7 @@
 const assertType = require('../helpers/assertType')
 const mongoose = require('mongoose')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
+// const auth = require('../auth')
+// const auth = new auth()
 const Schema = mongoose.Schema
 // const ObjectId = Schema.ObjectId
 

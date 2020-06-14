@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const User = require('../../../models/user')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 const { updatePassword } = require('../../../validations/user')
 
 /**

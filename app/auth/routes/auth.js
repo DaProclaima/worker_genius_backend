@@ -3,7 +3,7 @@ const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const User = require('../../app/models/user')
+const User = require('../../models/user')
 const RefreshToken = require('../models/refreshToken')
 const { generateAccessToken, generateRefreshToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/authorization')
@@ -108,7 +108,7 @@ router.post('/login', async (req, res) => {
   }
 
   // Creates and assign a token
-  // const token = jwt.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET )
+  // const token = auth.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET )
   const accessToken = generateAccessToken({_id: user._id}, process.env.ACCESS_TOKEN_SECRET)
   const newRefreshToken = generateRefreshToken({_id: user._id}, process.env.REFRESH_TOKEN_SECRET)
   

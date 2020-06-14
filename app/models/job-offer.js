@@ -1,7 +1,7 @@
 const generateSlug = require('../helpers/generateSlug')
 const mongoose = require('mongoose')
-// const JWT = require('../jwt')
-// const jwt = new JWT()
+// const auth = require('../auth')
+// const auth = new auth()
 const Schema = mongoose.Schema
 // const Mixed = Schema.Types.Mixed
 // const ObjectId = Schema.ObjectId
@@ -375,7 +375,7 @@ JobOfferSchema.methods.getLastUpdate = function () {
 // UserSchema.methods.generateAuthToken = async function () {
 //   // Generate an auth token for the user
 //   const user = this
-//   const token = jwt.JWTgenerator(user)
+//   const token = auth.JWTgenerator(user)
 //   user.token = token
 //   await user.save()
 //   return token

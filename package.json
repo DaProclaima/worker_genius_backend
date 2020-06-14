@@ -13,10 +13,10 @@
     "dev": "yarn lint && nodemon index.js",
     "test": "nyc  --reporter=html --reporter=text mocha",
     "lint": "eslint --fix .eslintrc.js .eslintignore ./app/ index.js",
-    "start:auth": "node ./JWT/server.js",
-    "dev:auth": "nodemon ./JWT/server.js",
-    "start:socketio": "node ./socket_io_app/server.js",
-    "dev:socketio": "nodemon ./socket_io_app/server.js"
+    "start:auth": "node app/auth/server.js",
+    "dev:auth": "nodemon app/auth/server.js",
+    "start:discuss": "node app/discussion/server.js",
+    "dev:discuss": "nodemon app/discussion/server.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

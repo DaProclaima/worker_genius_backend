@@ -1,7 +1,7 @@
 const Certification = require('../../models/certification')
 const { validationEdit } = require('../../validations/certification')
-// const JWT = require('../../jwt.js')
-// const jwt = new JWT()
+// const auth = require('../../auth.js')
+// const auth = new auth()
 
 /**
  * Edit
