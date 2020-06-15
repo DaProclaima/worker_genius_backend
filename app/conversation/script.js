@@ -1,5 +1,5 @@
 const io = require('socket.io')
-const socket = io(`http://localhost:3011`)
+const socket = io(`http://localhost:3013`)
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
