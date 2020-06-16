@@ -14,7 +14,7 @@ dotenv.config()
 class Server {
   constructor () {
     this.app = express()
-    this.port = process.env.API_SERVER_PORT
+    this.port = process.env.API_SERVER_PORT || 3010
     this.apiPrefix = '/api/v1'
   }
 
@@ -153,7 +153,7 @@ class Server {
       this.dbConnect()
       this.middleware()
       this.routes()
-      this.app.listen(this.port, () => console.log(`Server is listening on port ${this.port} and dirname is ${__dirname}`))
+      this.app.listen(this.port, () => console.log(`Server is listening on port ${this.port || 3010} and dirname is ${__dirname}`))
     } catch (err) {
       console.error(`[ERROR] Server -> ${err}`)
     }

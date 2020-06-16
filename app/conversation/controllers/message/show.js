@@ -1,14 +1,14 @@
-const Email = require('../../models/email')
+const Message = require('../../models/message')
 
 /**
- * New
+ * Show
  * @class
  */
-class New {
+class Show {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.EmailModel = connect.model('Email', Email)
+    this.MsgModel = connect.model('Message', Message)
     this.run()
   }
 
@@ -16,15 +16,13 @@ class New {
    * middleware
    */
   middleware () {
-    this.app.post(`${this.apiPrefix}/email/new`, async (req, res) => {
-      const emailModel = new this.EmailModel(req.body)
+    this.app.get(`${this.apiPrefix}/message/show/:id`, async (req, res) => {
       try {
-        if (emailModel) {
-          await res.status(201).send({ emailModel })
-          emailModel.save()
-          return
-        }
-        throw new Error('Error from server while processing new email creation.')
+        const { id } = req.params
+
+        await this.MsgModel.findById(id).then(msg => {
+          res.status(200).json(msg || {})
+        })
       } catch (err) {
         console.error(err) // For debugging reasons
 
@@ -44,4 +42,4 @@ class New {
   }
 }
 
-module.exports = New
+module.exports = Show

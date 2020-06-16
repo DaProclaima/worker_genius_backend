@@ -17,16 +17,18 @@ class New {
    */
   middleware () {
     this.app.post(`${this.apiPrefix}/bill/new`, async (req, res) => {
+      const { body } = req
+      // await res.status(201).send({ body })
+      const billModel = new this.BillModel(body)
       try {
-        const { body } = req
-        // await res.status(201).send({ body })
-        const billModel = new this.BillModel(body)
-        await res.status(201).send({ billModel })
-        billModel.save()
-        // throw new Error('Error from server while processing new job offer creation.')
+        if (billModel) {
+          await res.status(201).send({ billModel })
+          billModel.save()
+          return
+        }
+        throw new Error('Error from server while processing new bill creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
-
         return res.status(500).send({
           error: 'GENERIC',
           description: 'Something went wrong. Please try again or contact support.'

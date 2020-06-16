@@ -1,5 +1,4 @@
-const Email = require('../../models/email')
-
+const Attachment = require('../../models/attachment')
 /**
  * New
  * @class
@@ -8,7 +7,7 @@ class New {
   constructor (app, connect, apiPrefix) {
     this.app = app
     this.apiPrefix = apiPrefix
-    this.EmailModel = connect.model('Email', Email)
+    this.AttachmentModel = connect.model('Attachment', Attachment)
     this.run()
   }
 
@@ -16,15 +15,14 @@ class New {
    * middleware
    */
   middleware () {
-    this.app.post(`${this.apiPrefix}/email/new`, async (req, res) => {
-      const emailModel = new this.EmailModel(req.body)
+    this.app.post(`${this.apiPrefix}/attachment/new`, async (req, res) => {
       try {
-        if (emailModel) {
-          await res.status(201).send({ emailModel })
-          emailModel.save()
-          return
-        }
-        throw new Error('Error from server while processing new email creation.')
+        const { body } = req
+        // await res.status(201).send({ body })
+        const attachmentModel = new this.AttachmentModel(body)
+        await res.status(201).send({ attachmentModel })
+        attachmentModel.save()
+        // throw new Error('Error from server while processing new job offer creation.')
       } catch (err) {
         console.error(err) // For debugging reasons
 

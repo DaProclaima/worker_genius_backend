@@ -27,7 +27,7 @@ messageForm.addEventListener('submit', e => {
   e.preventDefault()
   const message = messageInput.value
   const attachment = attachmentInput.value
-  console.log(attachment)
+  // console.log(attachment)
   appendMessage(`You sent: ${message}`)
   socket.emit('send-chat-message', message)
   messageInput.value = ''
