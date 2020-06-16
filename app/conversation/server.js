@@ -56,6 +56,11 @@ try {
         socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
       })
 
+      socket.on('send-chat-attachment', attachment => {
+        // console.log(message)
+        socket.broadcast.emit('chat-attachment', { attachment: attachment, name: users[socket.id] })
+      })
+
       socket.on('disconnect', () => {
         socket.broadcast.emit('user-disconnected', users[socket.id])
         delete users[socket.id]
@@ -69,12 +74,12 @@ try {
   // server.use(morgan('combined'))
   server.use(bodyParser.urlencoded({ 'extended': true }))
   server.use(bodyParser.json())
-  server.use('/socket', express.static(path.join(__dirname, './')))
+  // server.use('/socket', express.static(path.join(__dirname, './')))
 
-  server.get('/conversations-test', async (req, res) => {
-    // res.json({ok: 'ok'})
-    res.sendFile(path.join(__dirname, './index.html'))
-  })
+  // server.get('/conversations-test', async (req, res) => {
+  //   // res.json({ok: 'ok'})
+  //   res.sendFile(path.join(__dirname, './index.html'))
+  // })
 
   server.use((_, res) => {
     res.status(404).json({

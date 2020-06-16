@@ -1,8 +1,9 @@
-const express = require('express')
-const routes = require('./controllers/routes.js')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const express = require('express')
+const mongoose = require('mongoose')
+const path = require('path')
+const routes = require('./controllers/routes.js')
 dotenv.config()
 // const path = require('path')
 // const fetch = require('node-fetch')
@@ -80,6 +81,7 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
+    this.app.use('/socket', express.static(path.join(__dirname, './conversation/')))
   }
 
   /**
@@ -136,6 +138,10 @@ class Server {
     new routes.works.ListWork(this.app, this.connect, this.apiPrefix)
     new routes.works.DeleteWork(this.app, this.connect, this.apiPrefix)
 
+    this.app.get('/conversations-test', async (req, res) => {
+      // res.json({ok: 'ok'})
+      res.sendFile(path.join(__dirname, './conversation/index.html'))
+    })
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,

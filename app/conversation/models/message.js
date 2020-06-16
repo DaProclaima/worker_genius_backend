@@ -1,4 +1,4 @@
-const assertType = require('../helpers/assertType')
+const assertType = require('../../helpers/assertType')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -14,8 +14,8 @@ const MessageSchema = new Schema({
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
-  collection: 'messages', 
-  minimize: false, 
+  collection: 'messages',
+  minimize: false,
   versionKey: false
 }).set('toJSON', {
   transform: (doc, ret) => {
@@ -25,7 +25,7 @@ const MessageSchema = new Schema({
 })
 
 MessageSchema.methods.setExpeditor = function (id) {
-  // TODO: if user id exists then... 
+  // TODO: if user id exists then...
   this.expeditor = id
   return this
 }
@@ -35,7 +35,7 @@ MessageSchema.methods.getExpeditor = function () {
 }
 
 MessageSchema.methods.setReceiver = function (id) {
-  // TODO: if user id exists then... 
+  // TODO: if user id exists then...
   this.receiver = id
   return this
 }
@@ -49,19 +49,19 @@ MessageSchema.methods.setContent = function (content) {
   return this
 }
 
-MessageSchema.methods.getContent = function () { 
+MessageSchema.methods.getContent = function () {
   return this.content
 }
 
-MessageSchema.methods.getCreationDate = function () { 
+MessageSchema.methods.getCreationDate = function () {
   return this.creation_date
 }
 
-MessageSchema.methods.setLastUpdate = function () { 
+MessageSchema.methods.setLastUpdate = function () {
   this.last_update = Date.now
   return this
 }
-MessageSchema.methods.getLastUpdate = function () { 
+MessageSchema.methods.getLastUpdate = function () {
   return this.last_update
 }
 

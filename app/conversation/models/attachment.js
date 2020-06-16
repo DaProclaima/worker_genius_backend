@@ -1,4 +1,4 @@
-const assertType = require('../helpers/assertType')
+// const assertType = require('../../helpers/assertType')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -40,27 +40,6 @@ AttachmentSchema.methods.setReceiver = function (id) {
 
 AttachmentSchema.methods.getReceiver = function () {
   return this.receiver
-}
-
-AttachmentSchema.methods.setContent = function (content) {
-  this.receiver = assertType.checkString(content, 'Content of the attachment')
-  return this
-}
-
-AttachmentSchema.methods.getContent = function () {
-  return this.content
-}
-
-AttachmentSchema.methods.getCreationDate = function () {
-  return this.creation_date
-}
-
-AttachmentSchema.methods.setLastUpdate = function () {
-  this.last_update = Date.now
-  return this
-}
-AttachmentSchema.methods.getLastUpdate = function () {
-  return this.last_update
 }
 
 module.exports = AttachmentSchema
