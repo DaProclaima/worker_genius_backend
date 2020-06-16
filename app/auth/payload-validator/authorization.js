@@ -5,9 +5,9 @@ const registerValidation = data => {
     // console.log(data)
   
     const schema = Joi.object().keys({
-      first_name: Joi.string().min(6).required(),
-      last_name: Joi.string().min(6).required(),
-      username: Joi.string().min(6).required(),
+      first_name: Joi.string().min(6).max(100).required(),
+      last_name: Joi.string().min(6).max(100).required(),
+      username: Joi.string().min(6).max(50).required(),
       email: Joi.string().min(6).email()
         .email().required(),
       hash: Joi.string().min(6).max(20).required(), // todo need regex for setting min one special char, one maj and one number

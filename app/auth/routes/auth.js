@@ -9,11 +9,11 @@ const { generateAccessToken, generateRefreshToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/authorization')
 
 dotenv.config()
-const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL 
+const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
 
 // connect to db
-const connect = mongoose.createConnection(host, 
-  { 
+const connect = mongoose.createConnection(host,
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -44,13 +44,14 @@ process.on('SIGINT', () => {
 const refreshTokenModel = connect.model('RefreshToken', RefreshToken)
 const UserModel = connect.model('User', User)
 
+
 router.post('/register', async (req, res) => {
   // check repeat password with password
 
   // Validate schema before to make an user
   try {
     const { error } = registerValidation(req.body)
-    if (error) { 
+    if (error) {
       return res.status(403).send(error.details[0].message)
     }
   } catch (error) {
@@ -66,7 +67,7 @@ router.post('/register', async (req, res) => {
   // hash the password
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
-  
+
   const user = {
     first_name: req.body.name,
     email: req.body.email,
@@ -90,7 +91,7 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   const { error } = loginValidation(req.body)
-  if (error) { 
+  if (error) {
     return res.status(403).send(error.details[0].message)
   }
 
@@ -110,16 +111,16 @@ router.post('/login', async (req, res) => {
   // const token = auth.sign({_id: user._id}, process.env.ACCESS_TOKEN_SECRET )
   const accessToken = generateAccessToken({_id: user._id}, process.env.ACCESS_TOKEN_SECRET)
   const newRefreshToken = generateRefreshToken({_id: user._id}, process.env.REFRESH_TOKEN_SECRET)
-  
-  const dbRefreshToken = new refreshTokenModel(
+
+  const dbRefreshToken = new RefreshTokenModel(
     {
       user_id: user._id,
       string: newRefreshToken
     }
   )
-  dbRefreshToken.save()  
+  dbRefreshToken.save()
   res.header({ 'auth-token': accessToken, 'refresh-token': newRefreshToken, 'id': user._id }).send(
-    {accessToken, newRefreshToken, user })
+    { accessToken, newRefreshToken, user })
 
   // check if password is correct
 })
@@ -139,14 +140,14 @@ router.post('/token/extend', async (req, res) => {
   } catch (err) {
     console.log(err)
   }
-  
+
   const refreshToken = req.headers['refresh-token']
   const id = req.headers['id']
   if (refreshToken === null) {
     return res.sendStatus(401)
   }
-  if (!listRefreshTokens.map(token => token.user_id === id)) {
-    if (!refreshToken === token.string) {
+  if (!listRefreshTokens.map( token => token.user_id === id)) {
+    if(! refreshToken === token.string) {
       return res.sendStatus(403).json({
         code: 403,
         message: 'invalid token'
