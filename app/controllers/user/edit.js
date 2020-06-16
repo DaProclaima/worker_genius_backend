@@ -49,11 +49,11 @@ class Edit {
       if (body.department_name) updateObj.department_name = body.department_name
       if (body.country_name) updateObj.country_name = body.country_name
       if (body.company_name) updateObj.company_name = body.company_name
-      if (body.company_vat) updateObj.company_vat = body.company_vat
+      if (body.company_registration_number) updateObj.company_registration_number = body.company_registration_number
       if (body.resume) updateObj.resume = body.resume
       if (body.profile_consultation_counter) updateObj.profile_consultation_counter = body.profile_consultation_counter
       if (body.profile_picture) updateObj.profile_picture = body.profile_picture
-      if (body.list_skills) updateObj.skills = body.skills
+      if (body.skills) updateObj.skills = body.skills
       if (body.list_certifications) updateObj.list_certifications = body.list_certifications
       if (body.list_replied_job) updateObj.list_replied_job = body.list_replied_job
       if (body.list_posted_job) updateObj.list_posted_job = body.list_posted_job
@@ -72,11 +72,11 @@ class Edit {
         department_name: updateObj.department_name,
         country_name: updateObj.country_name,
         company_name: updateObj.company_name,
-        company_vat: updateObj.company_vat,
+        company_registration_number: updateObj.company_registration_number,
         resume: updateObj.resume,
         profile_consultation_counter: updateObj.profile_consultation_counter,
         profile_picture: updateObj.profile_picture,
-        list_skills: updateObj.list_skills,
+        skills: updateObj.skills,
         list_certifications: updateObj.list_certifications,
         list_replied_job: updateObj.list_replied_job,
         list_posted_job: updateObj.list_posted_job,

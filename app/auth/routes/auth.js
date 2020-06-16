@@ -127,7 +127,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/token/extend', async (req, res) => {
   try {
-    listRefreshTokens = refreshTokenModel.find({}, function (err, result) {
+    const listRefreshTokens = refreshTokenModel.find({}, function (err, result) {
       if (err) {
         res.status(500).json({
           'code': 500,

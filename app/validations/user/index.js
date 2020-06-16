@@ -17,12 +17,12 @@ const validationEdit = data => {
     department_name: Joi.string().min(1).max(155).optional(),
     country_name: Joi.string().min(1).max(155).optional(),
     company_name: Joi.string().min(1).max(155).optional(),
-    company_vat: Joi.string().min(1).max(50).optional(), // TODO regex VAT number
+    company_registration_number: Joi.string().min(1).max(50).optional(), // TODO regex VAT number
     resume: Joi.any().optional(), // TODO regex ? complicated as we ignore all file types
     slug: Joi.forbidden(),
     profile_consultation_counter: Joi.number().max(1000).optional(),
     profile_picture: Joi.string().min(5).max(155).optional(), // TODO file type binary ?
-    list_skills: Joi.array().has(String).optional(), // TODO ObjectId
+    skills: Joi.array().has(String).optional(), // TODO ObjectId
     list_certifications: Joi.array().has(String).optional(), // TODO ObjectId
     list_replied_job: Joi.array().has(String).optional(), // TODO ObjectId
     list_posted_job: Joi.array().has(String).optional(), // TODO ObjectId

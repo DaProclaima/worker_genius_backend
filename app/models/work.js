@@ -14,7 +14,9 @@ const WorkSchema = new Schema({
   certification_id: [String], 
   grade: Number,
   requested_date: Date, // TODO to add in validation
-  test_location_id: String, // TODO to add in validation + ObjectId
+  street_name_num: String, // TODO to add in validation + ObjectId
+  city_name: String, // TODO to add in validation + ObjectId
+  department_name: String, // TODO to add in validation + ObjectId
   creation_date: { type: Date, default: Date.now },
   update_date: { type: Date, default: null },
   correction_date: { type: Date, default: null }
