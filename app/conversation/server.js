@@ -1,44 +1,44 @@
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 const express = require('express')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const socketIo = require('socket.io')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const path = require('path')
 // const conversationsRouter = require('./routes/conversations')
 const users = {}
 dotenv.config()
 
-const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
-const connect = mongoose.createConnection(host, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-})
-
-connect.on('error', (err) => {
-  setTimeout(() => {
-    console.log('[ERROR] api dbConnect() -> mongodb error')
-    this.connect = this.dbConnect(host)
-  }, 5000)
-
-  console.error(`[ERROR] api dbConnect() -> ${err}`)
-})
-
-connect.on('disconnected', () => {
-  setTimeout(() => {
-    console.log('[DISCONNECTED] api dbConnect() -> mongodb disconnected')
-    this.connect = this.dbConnect(host)
-  }, 5000)
-})
-
-process.on('SIGINT', () => {
-  connect.close(() => {
-    console.log('[API END PROCESS] api dbConnect() -> close mongodb connection ')
-    process.exit(0)
-  })
-})
+// const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
+// const connect = mongoose.createConnection(host, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false,
+//   useCreateIndex: true
+// })
+//
+// connect.on('error', (err) => {
+//   setTimeout(() => {
+//     console.log('[ERROR] api dbConnect() -> mongodb error')
+//     this.connect = this.dbConnect(host)
+//   }, 5000)
+//
+//   console.error(`[ERROR] api dbConnect() -> ${err}`)
+// })
+//
+// connect.on('disconnected', () => {
+//   setTimeout(() => {
+//     console.log('[DISCONNECTED] api dbConnect() -> mongodb disconnected')
+//     this.connect = this.dbConnect(host)
+//   }, 5000)
+// })
+//
+// process.on('SIGINT', () => {
+//   connect.close(() => {
+//     console.log('[API END PROCESS] api dbConnect() -> close mongodb connection ')
+//     process.exit(0)
+//   })
+// })
 
 try {
   try {
@@ -66,15 +66,14 @@ try {
   }
 
   const server = express()
-  server.use(morgan('combined'))
+  // server.use(morgan('combined'))
   server.use(bodyParser.urlencoded({ 'extended': true }))
   server.use(bodyParser.json())
   server.use('/socket', express.static(path.join(__dirname, './')))
 
-  // server.use('/conversations', conversationsRouter)
-  server.get('/conversations', async (req, res) => {
+  server.get('/conversations-test', async (req, res) => {
     // res.json({ok: 'ok'})
-    res.sendFile( path.join(__dirname,'./index.html'))
+    res.sendFile(path.join(__dirname, './index.html'))
   })
 
   server.use((_, res) => {
@@ -83,8 +82,8 @@ try {
       'message': 'Route not Found'
     })
   })
-  
-  server.listen(process.env.DISCUSSION_PORT || 3012, () => console.log(`Conversation server listening on port ${process.env.DISCUSSION_PORT || 3012} and dirname is ${__dirname}`))
+
+  // server.listen(process.env.DISCUSSION_PORT || 3012, () => console.log(`Conversation server listening on port ${process.env.DISCUSSION_PORT || 3012} and dirname is ${__dirname}`))
 } catch (e) {
   console.error(e)
 }

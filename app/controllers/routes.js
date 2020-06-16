@@ -1,3 +1,6 @@
+// Attachments
+const NewAttachment = require('../conversation/controllers/attachment/new')
+const ShowAttachment = require('../conversation/controllers/attachment/show')
 // Users
 // const NewUser = require('./user/new')
 const ShowUser = require('./user/show')
@@ -24,11 +27,11 @@ const ListJobOffer = require('./job-offer/list')
 const NewEmail = require('./email/new')
 
 // Messages
-const NewMessage = require('./message/new')
-const ShowMessage = require('./message/show')
-const EditMessage = require('./message/edit')
-const ListMessage = require('./message/list')
-const DeleteMessage = require('./message/delete')
+const NewMessage = require('../conversation/controllers/message/new')
+const ShowMessage = require('../conversation/controllers/message/show')
+const EditMessage = require('../conversation/controllers/message/edit')
+const ListMessage = require('../conversation/controllers/message/list')
+const DeleteMessage = require('../conversation/controllers/message/delete')
 
 // Bills
 const NewBill = require('./bill/new')
@@ -45,6 +48,10 @@ const ListWork = require('./work/list')
 const DeleteWork = require('./work/delete')
 
 module.exports = {
+  attachments: {
+    NewAttachment,
+    ShowAttachment
+  },
   users: {
     ShowUser,
     EditUser,

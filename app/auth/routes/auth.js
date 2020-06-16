@@ -44,7 +44,6 @@ process.on('SIGINT', () => {
 const refreshTokenModel = connect.model('RefreshToken', RefreshToken)
 const UserModel = connect.model('User', User)
 
-
 router.post('/register', async (req, res) => {
   // check repeat password with password
 
@@ -146,8 +145,8 @@ router.post('/token/extend', async (req, res) => {
   if (refreshToken === null) {
     return res.sendStatus(401)
   }
-  if (!listRefreshTokens.map( token => token.user_id === id)) {
-    if(! refreshToken === token.string) {
+  if (!listRefreshTokens.map(token => token.user_id === id)) {
+    if (!refreshToken === token.string) {
       return res.sendStatus(403).json({
         code: 403,
         message: 'invalid token'

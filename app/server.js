@@ -42,29 +42,29 @@ class Server {
    */
   dbConnect () {
     const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
-    const connect = mongoose.createConnection(host, { 
+    const connect = mongoose.createConnection(host, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true
     })
-  
+
     connect.on('error', (err) => {
       setTimeout(() => {
         console.log('[ERROR] api dbConnect() -> mongodb error')
         this.connect = this.dbConnect(host)
       }, 5000)
-  
+
       console.error(`[ERROR] api dbConnect() -> ${err}`)
     })
-  
+
     connect.on('disconnected', () => {
       setTimeout(() => {
         console.log('[DISCONNECTED] api dbConnect() -> mongodb disconnected')
         this.connect = this.dbConnect(host)
       }, 5000)
     })
-  
+
     process.on('SIGINT', () => {
       connect.close(() => {
         console.log('[API END PROCESS] api dbConnect() -> close mongodb connection ')
@@ -86,6 +86,10 @@ class Server {
    * routes
    */
   routes () {
+    // Attachments
+    new routes.attachments.NewAttachment(this.app, this.connect, this.apiPrefix)
+    new routes.attachments.ShowAttachment(this.app, this.connect, this.apiPrefix)
+
     // Users
     // new routes.users.NewUser(this.app, this.connect, this.apiPrefix)
     new routes.users.ShowUser(this.app, this.connect, this.apiPrefix)
@@ -131,7 +135,7 @@ class Server {
     new routes.works.EditWork(this.app, this.connect, this.apiPrefix)
     new routes.works.ListWork(this.app, this.connect, this.apiPrefix)
     new routes.works.DeleteWork(this.app, this.connect, this.apiPrefix)
-    
+
     this.app.use((_, res) => {
       res.status(404).json({
         'code': 404,
