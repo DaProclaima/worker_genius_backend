@@ -1,11 +1,15 @@
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+let cors = require('cors')
 const dotenv = require('dotenv')
 const express = require('express')
 const mongoose = require('mongoose')
+const multer = require('multer')
 const path = require('path')
 const routes = require('./controllers/routes.js')
+const upload = multer({ dest: path.join(__dirname, '../uploads/') })
+
 dotenv.config()
-// const path = require('path')
 // const fetch = require('node-fetch')
 
 /**
@@ -81,7 +85,10 @@ class Server {
   middleware () {
     this.app.use(bodyParser.urlencoded({ 'extended': true }))
     this.app.use(bodyParser.json())
+    this.app.use(cookieParser())
     this.app.use('/socket', express.static(path.join(__dirname, './conversation/')))
+    this.app.use(cors())
+    // this.app.options('*', cors())
   }
 
   /**
@@ -138,9 +145,19 @@ class Server {
     new routes.works.ListWork(this.app, this.connect, this.apiPrefix)
     new routes.works.DeleteWork(this.app, this.connect, this.apiPrefix)
 
+    // Preflight HTTP request settings
+    this.app.options('*', (req, res) => {
+      res.header('Access-Control-Allow-Origin', '*')
+      res.sendStatus(200)
+      res.end()
+    })
+
     this.app.get('/conversations-test', async (req, res) => {
       // res.json({ok: 'ok'})
       res.sendFile(path.join(__dirname, './conversation/index.html'))
+    })
+    this.app.post(`${this.apiPrefix}/upload/attachment`, upload.single('attachment'), (req, res) => {
+      console.log(req) // the uploaded file object
     })
     this.app.use((_, res) => {
       res.status(404).json({

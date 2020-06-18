@@ -5,13 +5,33 @@ const listManager = require('../helpers/listManager')
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 // const ObjectId = Schema.ObjectId
+const bcrypt = require('bcryptjs')
+const saltRounds = 10
+const jwt = require('jsonwebtoken')
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, required: true },
-  first_name: String,
-  last_name: String,
-  email: { type: String, unique: true, required: true },
-  hash: String,
+  username: {
+    type: String,
+    unique: true,
+    maxlength: 255
+  },
+  first_name: {
+    type: String,
+    unique: true,
+    required: true,
+    maxlength: 255
+  },
+  last_name: {
+    type: String,
+    unique: true,
+    required: true,
+    maxlength: 50
+  },
+  email: { type: String, unique: true, required: true, trim: true },
+  hash: {
+    type: String,
+    minlength: 5
+  },
   birth_date: Date, // TODO add to validator
   phone_number: String, // TODO add to validator
   user_type: [String],
@@ -34,12 +54,17 @@ const UserSchema = new Schema({
   // TODO ObjectId
   list_watched_candidates: [String], // TODO ObjectId
   creation_date: { type: Date, default: Date.now },
+  token: {
+    type: String
+  },
+  tokenExp: {
+    type: Number
+  },
   last_update: Date
-  // token: String // TODO: will it stay here ??
 
 }, {
-  collection: 'users', 
-  minimize: false, 
+  collection: 'users',
+  minimize: false,
   versionKey: false
 }).set('toJSON', {
   transform: (doc, ret) => {
@@ -125,7 +150,7 @@ UserSchema.methods.removeUserType = function (type) {
       this.user_type.splice(index)
       return this
     }
-  }  
+  }
 }
 
 UserSchema.methods.getUserType = function () {
@@ -206,7 +231,7 @@ UserSchema.methods.setSlug = function () {
 }
 
 UserSchema.methods.getSlug = function () {
-  return this.slug 
+  return this.slug
 }
 
 UserSchema.methods.addOneProfileConsultationCounter = function (viewerId) {
@@ -265,7 +290,7 @@ UserSchema.methods.addCertification = function (certification) {
 }
 
 UserSchema.methods.removeCertification = function (certification) {
-  // TODO: check if certification exists then...    
+  // TODO: check if certification exists then...
   let index = this.list_certifications.indexOf(certification)
   if (index !== null) {
     this.list_certifications.splice(index)
@@ -288,7 +313,7 @@ UserSchema.methods.addPostedJob = function (job) {
 }
 
 UserSchema.methods.removePostedJob = function (job) {
-  // TODO: check if certification exists then...    
+  // TODO: check if certification exists then...
   let index = this.list_posted_job.indexOf(job)
   if (index !== null) {
     this.list_posted_job.splice(index)
@@ -311,7 +336,7 @@ UserSchema.methods.addRepliedJob = function (job) {
 }
 
 UserSchema.methods.removeRepliedJob = function (job) {
-  // TODO: check if certification exists then...    
+  // TODO: check if certification exists then...
   let index = this.list_replied_job.indexOf(job)
   if (index !== null) {
     this.list_replied_job.splice(index)
@@ -359,6 +384,56 @@ UserSchema.methods.getLastUpdate = function () {
 
 UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
+}
+
+UserSchema.pre('save', function (next) {
+  let user = this
+
+  if (user.isModified('hash')) {
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      if (err) return next(err)
+
+      bcrypt.hash(user.hash, salt, (err, hash) => {
+        if (err) return next(err)
+        user.hash = hash
+        next()
+      })
+    })
+  } else {
+    next()
+  }
+})
+
+UserSchema.methods.comparePassword = (plainPassword, cb) => {
+  bcrypt.compare(plainPassword, this.hash, (err, isMatch) => {
+    if (err) return cb(err)
+    cb(null, isMatch)
+  })
+}
+
+UserSchema.methods.generateToken = (cb) => {
+  let user = this
+  let token = jwt.sign(user._id.toHexString(), process.env.ACCESS_TOKEN_SECRET)
+
+  user.token = token
+  user.save((err, user) => {
+    if (err) return cb(err)
+    cb(null, user)
+  })
+}
+
+UserSchema.statics.findByToken = (token, cb) => {
+  let user = this
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decode) => {
+    if (err) {
+      return err
+    }
+    user.findOne({'_id': decode, 'token': token}, (err, user) => {
+      if (err) return cb(err)
+      cb(null, user)
+    })
+  })
 }
 
 module.exports = UserSchema

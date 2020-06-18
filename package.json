@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "1.18.3",
     "compression": "1.7.2",
@@ -29,6 +30,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
+    "express-fileupload": "^1.1.7-alpha.3",
     "express-handlebars": "^3.1.0",
     "handlebars-dateformat": "^1.1.1",
     "handlebars-intl": "^1.1.2",
@@ -41,6 +43,7 @@
     "morgan": "^1.10.0",
     "mpath": "^0.5.1",
     "ms": "^2.1.2",
+    "multer": "^1.4.2",
     "node": "^10.9.0",
     "node-fetch": "^2.6.0",
     "node-validator": "0.1.27",
