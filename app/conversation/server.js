@@ -73,6 +73,23 @@ try {
       socket.on('new-user', name => {
         users[socket.id] = name
         socket.broadcast.emit('user-connected', name)
+
+        ChatModel.find({})
+        // .populate('sender')
+          .exec((err, doc) => {
+            if (err) {
+              console.error(err)
+            }
+            let data = {
+              userData: {
+                id: 1,
+                username: 'falinso'
+              }
+            }
+            console.log(doc)
+            // doc.getSender()
+            return socket.broadcast.emit('chat-message', {data: data, doc: doc})
+          })
       })
       // console.log('New User')
       // socket.emit('chat-message', 'Hello World')

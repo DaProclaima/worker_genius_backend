@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+// const User = require('../../models/user')
+// const UserModel = mongoose.Model(User)
 
 const ChatSchema = new Schema({
   message: {
@@ -24,5 +26,15 @@ const ChatSchema = new Schema({
     delete ret._id
   }
 })
+
+ChatSchema.methods.getSender = () => {
+  // TODO: relations
+  // return UserModel.findById({this.sender}, (err,doc) => {
+  //   if (err) console.log(err)
+  //
+  //   return {first_name: doc.first_name, last_name: doc.last_name}
+  // })
+  return 'me'
+}
 
 module.exports = ChatSchema
