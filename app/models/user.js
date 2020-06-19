@@ -6,7 +6,6 @@ const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 // const ObjectId = Schema.ObjectId
 const bcrypt = require('bcryptjs')
-const saltRounds = 10
 const jwt = require('jsonwebtoken')
 
 const UserSchema = new Schema({
@@ -109,8 +108,14 @@ UserSchema.methods.getEmail = function () {
   return this.email
 }
 
-UserSchema.methods.setHash = function (hash) {
-  this.hash = assertType.checkString(hash, 'Hash')
+UserSchema.methods.setHash = async function (password, salt) {
+  password = assertType.checkString(password, 'Hash')
+  // console.log(password)
+  password = await bcrypt.hash(password, salt)
+  // console.log(password)
+  this.hash = password
+  // console.log(this.hash)
+  // console.log(this)
   return this
 }
 
@@ -386,39 +391,30 @@ UserSchema.methods.getFullName = function () {
   return `${this.first_name} ${this.last_name.toUpperCase()}`
 }
 
-UserSchema.pre('save', function (next) {
-  let user = this
+UserSchema.methods.comparePassword = (user, plainPassword, cb) => {
+  bcrypt.compare(plainPassword, user.hash, (err, isMatch) => {
+    // console.log(user)
+    // console.log(plainPassword)
+    if (err) {
+      return cb(err)
+    }
 
-  if (user.isModified('hash')) {
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      if (err) return next(err)
-
-      bcrypt.hash(user.hash, salt, (err, hash) => {
-        if (err) return next(err)
-        user.hash = hash
-        next()
-      })
-    })
-  } else {
-    next()
-  }
-})
-
-UserSchema.methods.comparePassword = (plainPassword, cb) => {
-  bcrypt.compare(plainPassword, this.hash, (err, isMatch) => {
-    if (err) return cb(err)
     cb(null, isMatch)
   })
 }
 
-UserSchema.methods.generateToken = (cb) => {
-  let user = this
-  let token = jwt.sign(user._id.toHexString(), process.env.ACCESS_TOKEN_SECRET)
-
+UserSchema.methods.generateToken = (user, cb) => {
+  //  user._id.toHexString()
+  // console.log(user)
+  delete user.token
+  delete user.hash
+  let params = JSON.stringify(user)
+  let token = jwt.sign(params, process.env.ACCESS_TOKEN_SECRET)
   user.token = token
   user.save((err, user) => {
     if (err) return cb(err)
-    cb(null, user)
+
+    return cb(null, user)
   })
 }
 
@@ -435,5 +431,25 @@ UserSchema.statics.findByToken = (token, cb) => {
     })
   })
 }
+
+
+// UserSchema.pre('save', function (next) {
+//   let user = this
+//
+//   if (user.isModified('hash')) {
+//     console.log(user.isModified('hash'))
+//     bcrypt.genSalt(saltLocal, (err, salt) => {
+//       if (err) return next(err)
+//
+//       bcrypt.hash(user.hash, salt, (err, hash) => {
+//         if (err) return next(err)
+//         user.hash = hash
+//         next()
+//       })
+//     })
+//   } else {
+//     next()
+//   }
+// })
 
 module.exports = UserSchema

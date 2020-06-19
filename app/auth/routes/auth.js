@@ -45,14 +45,14 @@ process.on('SIGINT', () => {
 
 const UserModel = connect.model('User', User)
 
-router.get('/auth', auth, (req, res) => {
-  res.status(200).json({
-    _id: req.user._id,
-    email: req.user.email,
-    name: req.user.name,
-    last_name: req.user.last_name
-  })
-})
+// router.get('/auth', auth, (req, res) => {
+//   res.status(200).json({
+//     _id: req.user._id,
+//     email: req.user.email,
+//     name: req.user.name,
+//     last_name: req.user.last_name
+//   })
+// })
 
 router.post('/register', async (req, res) => {
   try {
@@ -77,19 +77,22 @@ router.post('/register', async (req, res) => {
 
   // hash the password
   const salt = await bcrypt.genSalt(10)
+  console.log(salt)
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
-
+  console.log(hashedPassword)
   const user = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     email: req.body.email,
     username: req.body.username,
-    hash: hashedPassword
   }
 
   try {
     const userModel = new UserModel(user)
+    await userModel.setHash(req.body.hash, salt)
     userModel.setSlug()
+    console.log(userModel)
+
     await userModel.save(err => {
       if (err) {
         return res.json({err: err})
@@ -111,6 +114,7 @@ router.post('/register', async (req, res) => {
 
 // Login
 router.post('/login', async (req, res) => {
+  // res.json({req: req.header})
   const { error } = loginValidation(req.body)
   if (error) {
     console.log(error)
@@ -132,17 +136,18 @@ router.post('/login', async (req, res) => {
     // if (!validHash) {
     //   return res.status(400).send('Email or password is wrong.')
     // }
-    user.comparePassword(req.body.password, (err, isMatch) => {
+    user.comparePassword(user, req.body.hash, (err, isMatch) => {
       if (!isMatch) {
-        return res.json({ loginSuccess: false, message: 'Wrong password', err: err })
+        return res.json({ loginSuccess: false, message: 'Authentication failed. Email or password is wrong.', err: err })
       }
-      user.generateToken((err, user) => {
+      user.generateToken(user,(err, user) => {
         if (err) return res.status(400).send(err)
-        res.cookie('w_authExp', user.tokenExp)
-        res.cookie('w_auth', user.token).status(200)
-          .json({
-            loginSuccess: true
-          })
+        // res.cookie('w_authExp', user.tokenExp)
+        // res.cookie('w_auth', user.token).status(200)
+        res.status(201).json({
+          loginSuccess: true,
+          user: user
+        })
       })
     })
   })
