@@ -427,11 +427,11 @@ UserSchema.statics.findByToken = (token, cb) => {
     }
     user.findOne({'_id': decode, 'token': token}, (err, user) => {
       if (err) return cb(err)
+
       cb(null, user)
     })
   })
 }
-
 
 // UserSchema.pre('save', function (next) {
 //   let user = this

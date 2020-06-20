@@ -45,14 +45,14 @@ process.on('SIGINT', () => {
 
 const UserModel = connect.model('User', User)
 
-// router.get('/auth', auth, (req, res) => {
-//   res.status(200).json({
-//     _id: req.user._id,
-//     email: req.user.email,
-//     name: req.user.name,
-//     last_name: req.user.last_name
-//   })
-// })
+router.get('/auth', auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+    last_name: req.user.last_name
+  })
+})
 
 router.post('/register', async (req, res) => {
   try {
