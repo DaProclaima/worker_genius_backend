@@ -30,7 +30,7 @@ class Edit {
       // validation, updateObj
       try {
         const { error } = validationEdit(body)
-        if (error) { 
+        if (error) {
           console.log(error)
           return res.status(403).send(error.details[0].message)
         }
@@ -39,8 +39,8 @@ class Edit {
       }
 
       if (body.username) updateObj.username = body.username
-      if (body.first_name) updateObj.first_name = body.first_name
-      if (body.last_name) updateObj.last_name = body.last_name
+      if (body.firstname) updateObj.firstname = body.firstname
+      if (body.lastname) updateObj.lastname = body.lastname
       if (body.email) updateObj.email = body.email
       if (body.email) updateObj.email = body.email
       if (body.user_type) updateObj.user_type = body.user_type
@@ -60,11 +60,11 @@ class Edit {
       if (body.list_bills) updateObj.list_bills = body.list_bills
       if (body.list_works) updateObj.list_works = body.list_works
       if (body.list_watched_candidates) updateObj.list_watched_candidates = body.list_watched_candidates
-      
+
       this.UserModel.findOneAndUpdate(query, {
         username: updateObj.username,
-        first_name: updateObj.first_name,
-        last_name: updateObj.last_name,
+        firstname: updateObj.firstname,
+        lastname: updateObj.lastname,
         email: updateObj.email,
         user_type: updateObj.user_type,
         street_name_num: updateObj.street_name_num,
@@ -87,7 +87,7 @@ class Edit {
       }, {
         new: true,
         omitUndefined: true
-      }).then(model => {  
+      }).then(model => {
         model.setSlug()
         delete model.hash
         res.status(200).json(model || {})

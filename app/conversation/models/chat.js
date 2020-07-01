@@ -32,7 +32,7 @@ ChatSchema.methods.getSender = () => {
   // return UserModel.findById({this.sender}, (err,doc) => {
   //   if (err) console.log(err)
   //
-  //   return {first_name: doc.first_name, last_name: doc.last_name}
+  //   return {firstname: doc.firstname, lastname: doc.lastname}
   // })
   return 'me'
 }

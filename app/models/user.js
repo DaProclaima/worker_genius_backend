@@ -14,13 +14,13 @@ const UserSchema = new Schema({
     unique: true,
     maxlength: 255
   },
-  first_name: {
+  firstname: {
     type: String,
     unique: true,
     required: true,
     maxlength: 255
   },
-  last_name: {
+  lastname: {
     type: String,
     unique: true,
     required: true,
@@ -82,21 +82,21 @@ UserSchema.methods.getUsername = function () {
 }
 
 UserSchema.methods.setFirstName = function (firstName) {
-  this.first_name = assertType.checkString(firstName, 'First name')
+  this.firstname = assertType.checkString(firstName, 'First name')
   return this
 }
 
 UserSchema.methods.getFirstName = function () {
-  return this.first_name
+  return this.firstname
 }
 
 UserSchema.methods.setLastName = function (lastName) {
-  this.last_name = assertType.checkString(lastName, 'Last name')
+  this.lastname = assertType.checkString(lastName, 'Last name')
   return this
 }
 
 UserSchema.methods.getLastName = function () {
-  return this.last_name
+  return this.lastname
 }
 
 UserSchema.methods.setEmail = function (email) {
@@ -388,7 +388,7 @@ UserSchema.methods.getLastUpdate = function () {
 }
 
 UserSchema.methods.getFullName = function () {
-  return `${this.first_name} ${this.last_name.toUpperCase()}`
+  return `${this.firstname} ${this.lastname.toUpperCase()}`
 }
 
 UserSchema.methods.comparePassword = (user, plainPassword, cb) => {
@@ -406,11 +406,30 @@ UserSchema.methods.comparePassword = (user, plainPassword, cb) => {
 UserSchema.methods.generateToken = (user, cb) => {
   //  user._id.toHexString()
   // console.log(user)
-  delete user.token
-  delete user.hash
-  let params = JSON.stringify(user)
-  let token = jwt.sign(params, process.env.ACCESS_TOKEN_SECRET)
-  user.token = token
+  // let params = user.toObject()
+  // delete params.token
+  // delete params.hash
+  // console.log(params)
+  // params = JSON.stringify(params)
+  // console.log(params)
+  // console.log(token)
+  user.token = jwt.sign({
+    user_type: user.user_type,
+    skills: user.skills,
+    list_certifications: user.list_certifications,
+    list_replied_job: user.list_replied_job,
+    list_posted_job: user.list_posted_job,
+    list_bills: user.list_bills,
+    list_works: user.list_works,
+    list_watched_candidates: user.list_watched_candidates,
+    _id: user._id,
+    firstname: user.firstname,
+    email: user.email,
+    username: user.username,
+    creation_date: user.creation_date,
+    slug: user.slug
+  }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
+  console.log(user)
   user.save((err, user) => {
     if (err) return cb(err)
 

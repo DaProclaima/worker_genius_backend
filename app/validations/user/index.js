@@ -4,8 +4,8 @@ const Joi = require('@hapi/joi')
 const validationEdit = data => {
   const schema = Joi.object().keys({
     username: Joi.string().min(5).max(50).optional(),
-    first_name: Joi.string().min(5).max(155).optional(),
-    last_name: Joi.string().min(5).max(155).optional(),
+    firstname: Joi.string().min(5).max(155).optional(),
+    lastname: Joi.string().min(5).max(155).optional(),
     email: Joi.string().min(1).max(50).email().optional(),
     hash: Joi.forbidden(),
     verifyHash: Joi.forbidden(),

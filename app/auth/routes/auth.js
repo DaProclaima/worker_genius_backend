@@ -50,7 +50,7 @@ router.get('/auth', auth, (req, res) => {
     _id: req.user._id,
     email: req.user.email,
     name: req.user.name,
-    last_name: req.user.last_name
+    lastname: req.user.lastname
   })
 })
 
@@ -81,10 +81,10 @@ router.post('/register', async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.hash, salt)
   console.log(hashedPassword)
   const user = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
-    username: req.body.username,
+    username: req.body.username
   }
 
   try {
@@ -140,14 +140,17 @@ router.post('/login', async (req, res) => {
       if (!isMatch) {
         return res.json({ loginSuccess: false, message: 'Authentication failed. Email or password is wrong.', err: err })
       }
-      user.generateToken(user,(err, user) => {
+      user.generateToken(user, (err, user) => {
         if (err) return res.status(400).send(err)
         // res.cookie('w_authExp', user.tokenExp)
         // res.cookie('w_auth', user.token).status(200)
-        res.status(201).json({
-          loginSuccess: true,
-          user: user
-        })
+        // user.toObject()
+        // delete user.hash
+        // res.status(201).json({
+        //   loginSuccess: true,
+        //   token: user.token
+        // })
+        res.status(201).header('auth-token', user.token).send(user.token)
       })
     })
   })
@@ -177,7 +180,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/token/extend', async (req, res) => {
   try {
-    const listRefreshTokens = UserModel.find({}, function (err, result) {
+    const listRefreshTokens = UserModel.find({token: req.headers['auth-token']}, function (err, result) {
       if (err) {
         console.error(err)
         res.status(500).json({
@@ -185,29 +188,41 @@ router.post('/token/extend', async (req, res) => {
           'message': err
         })
       } else {
-        res.status(200).json(result)
+        // res.status(200).json({
+        //   'code': 200,
+        //   'result': result
+        // })
       }
     })
-    const refreshToken = req.headers['refresh-token']
+    const authToken = req.headers['auth-token']
     const id = req.headers['id']
-    if (refreshToken === null) {
-      return res.sendStatus(401)
+    if (authToken === null) {
+      return res.status(401).json({
+        'code': 401,
+        'message': 'no refresh-token in header'
+      })
     }
     const token = listRefreshTokens.map(token => token.user_id === id)
     if (!token) {
-      if (!refreshToken === token.string) {
+      if (!authToken === token.string) {
         return res.sendStatus(403).json({
-          code: 403,
-          message: 'invalid token'
+          'code': 403,
+          'message': 'invalid token'
         })
       }
-      return res.sendStatus(403)
+      return res.status(403).json({
+        'code': 403,
+        'message': 'no token found like yours'
+      })
     }
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(authToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) {
-        return res.sendStatus(403)
+        return res.status(403).json({
+          code: 403,
+          message: err
+        })
       }
-      const accessToken = generateAccessToken({user_id: id}, refreshToken)
+      const accessToken = generateAccessToken({user_id: id}, authToken)
       res.header({'access-token': accessToken})
     })
   } catch (err) {

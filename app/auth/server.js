@@ -13,4 +13,4 @@ app.use('/api/v1/user', authRoute, function (req, res) {
   res.sendStatus(500)
 })
 
-app.listen(process.env.JWT_SERVER_PORT, () => console.log(`JWT Server up an and running at http://localhost:${process.env.JWT_SERVER_PORT}`))
+app.listen(process.env.JWT_SERVER_PORT || 3017, () => console.log(`JWT Server up an and running at http://localhost:${process.env.JWT_SERVER_PORT || 3017}`))
