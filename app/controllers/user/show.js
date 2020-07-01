@@ -1,5 +1,5 @@
 const User = require('../../models/user')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
@@ -26,7 +26,7 @@ class Show {
         if (id.match(/^[0-9a-fA-F]{24}$/)) {
           query.$or.push({_id: id})
         }
-        
+
         await this.UserModel.find(query).then(model => {
           res.status(200).json(model || {})
           // console.log(model)

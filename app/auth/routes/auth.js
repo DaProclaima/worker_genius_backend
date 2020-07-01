@@ -4,12 +4,13 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const User = require('../../models/user')
-const { auth } = require('../middleware/auth')
+const { verifyToken } = require('../middleware/verifyToken')
 // const RefreshToken = require('../models/refreshToken')
 const { generateAccessToken } = require('../manageToken')
 const { registerValidation, loginValidation } = require('../payload-validator/user')
 
 dotenv.config()
+
 const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
 
 // connect to db
@@ -45,7 +46,8 @@ process.on('SIGINT', () => {
 
 const UserModel = connect.model('User', User)
 
-router.get('/auth', auth, (req, res) => {
+router.get('/auth', verifyToken, (req, res) => {
+  console.log('/auth hello')
   res.status(200).json({
     _id: req.user._id,
     email: req.user.email,
@@ -230,7 +232,7 @@ router.post('/token/extend', async (req, res) => {
   }
 })
 
-router.delete('/logout', auth, async (req, res) => {
+router.delete('/logout', verifyToken, async (req, res) => {
   try {
     UserModel.findOneAndDelete({string: req.headers['refresh-token']}).then(model => {
       res.status(200).json(model || {})

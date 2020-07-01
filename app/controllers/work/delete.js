@@ -1,5 +1,5 @@
 const Work = require('../../models/work')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**

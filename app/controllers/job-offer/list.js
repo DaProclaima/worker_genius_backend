@@ -1,5 +1,5 @@
 const JobOffer = require('../../models/job-offer')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
@@ -23,7 +23,7 @@ class List {
         this.JobOfferModel.find({'title': req.body.title}, function (err, result) {
           if (err) {
             console.error(err)
-            
+
             res.status(500).json({
               'code': 500,
               'message': err

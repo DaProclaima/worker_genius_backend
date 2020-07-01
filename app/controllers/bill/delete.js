@@ -1,5 +1,5 @@
 const Bill = require('../../models/bill')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**

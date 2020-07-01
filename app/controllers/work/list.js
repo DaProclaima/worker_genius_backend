@@ -1,5 +1,5 @@
 const Work = require('../../models/work')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
@@ -23,7 +23,7 @@ class List {
         this.Model.find({}, function (err, result) {
           if (err) {
             console.error(err)
-            
+
             res.status(500).json({
               'code': 500,
               'message': err

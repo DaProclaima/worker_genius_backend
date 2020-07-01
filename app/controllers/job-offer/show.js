@@ -1,5 +1,5 @@
 const JobOffer = require('../../models/job-offer')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 /**
  * Show

@@ -1,6 +1,6 @@
 const JobOffer = require('../../models/job-offer')
 const { validationEdit } = require('../../validations/job-offer')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
@@ -23,10 +23,10 @@ class Edit {
       const updateObj = {}
       const { slug } = req.params
       const { body } = req
-      
+
       try {
         const { error } = validationEdit(body)
-        if (error) { 
+        if (error) {
           console.log(error)
           return res.status(403).send(error.details[0].message)
         }
@@ -58,7 +58,7 @@ class Edit {
         {
           slug: slug
         },
-        { 
+        {
           title: updateObj.title,
           level: updateObj.level,
           publisher: updateObj.publisher,
@@ -83,7 +83,7 @@ class Edit {
           new: true,
           omitUndefined: true
         }
-      ).then(model => {  
+      ).then(model => {
         console.log(model)
         model.setSlug(model.id)
         res.status(200).json(model || {})

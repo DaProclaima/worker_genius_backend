@@ -1,6 +1,6 @@
 const Certification = require('../../models/certification')
 const { validationEdit } = require('../../validations/certification')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
@@ -25,7 +25,7 @@ class Edit {
       const { body } = req
       try {
         const { error } = validationEdit(body)
-        if (error) { 
+        if (error) {
           console.log(error)
           return res.status(403).send(error.details[0].message)
         }
@@ -53,7 +53,7 @@ class Edit {
       }, {
         new: true,
         omitUndefined: true
-      }).then(model => {  
+      }).then(model => {
         model.setSlug(updateObj.title)
         model.setLastUpdate()
         res.status(200).json(model || {})
@@ -82,7 +82,7 @@ class Edit {
         }
       }, {
         new: true
-      }).then(model => {  
+      }).then(model => {
         model.setSlug()
         res.status(200).json(model || {})
       }).catch(err => {

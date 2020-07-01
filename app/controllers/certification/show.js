@@ -1,5 +1,5 @@
 const Certification = require('../../models/certification')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 /**
  * Create

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const User = require('../../../models/user')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 const { updatePassword } = require('../../../validations/user')
 
@@ -31,7 +31,7 @@ class Edit {
 
       try {
         const { error } = updatePassword({hash: body.hash, verifyHash: body.verifyHash})
-        if (error) { 
+        if (error) {
           console.log(error)
           return res.status(403).send(error.details[0].message)
         }
@@ -43,14 +43,14 @@ class Edit {
         const hashed = await bcrypt.hash(body.hash, salt)
         updateObj.hash = hashed
       }
-      
+
       this.UserModel.findOneAndUpdate(query, {
         hash: updateObj.hash,
         last_update: Date.now()
       }, {
         new: true,
         omitUndefined: true
-      }).then(model => {  
+      }).then(model => {
         model = {_id: model.id, last_update: model.last_update}
         res.status(200).json(model || {})
       }).catch(err => {

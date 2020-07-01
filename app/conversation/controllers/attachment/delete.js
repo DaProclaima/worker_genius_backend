@@ -1,5 +1,5 @@
 const Message = require('../../models/message')
-// const auth = require('../../auth.js')
+// const auth = require('../../verifyToken.js')
 // const auth = new auth()
 
 /**
