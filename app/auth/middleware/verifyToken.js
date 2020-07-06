@@ -1,12 +1,13 @@
 // const User = require('../../models/User')
 // const { connect } = require('../middleware/dbConnect')
 // const UserModel = connect.model('User', User)
-
+const dotenv = require('dotenv')
+const jwt = require('jsonwebtoken')
+dotenv.config()
 let verifyToken = (req, res, next) => {
-  let authHeader = req.headers['auth-token']
-  let token = authHeader
-  console.log(token)
-  if (token === null) {
+  let authToken = req.headers['auth-token']
+  console.log(authToken)
+  if (authToken === null) {
     return res.status(401).json({
       isAuth: false,
       'code': 401,
@@ -14,7 +15,8 @@ let verifyToken = (req, res, next) => {
     })
   }
 
-  // console.log(req.headers)
+  let datas = jwt.verify(authToken, process.env.ACCESS_TOKEN_SECRET)
+  console.log(datas)
   next()
 }
 

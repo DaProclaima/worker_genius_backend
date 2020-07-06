@@ -12,7 +12,7 @@ const morgan = require('morgan')
 const users = {}
 dotenv.config()
 
-const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
+const host = process.env.DB_CONNECT || 'mongodb://localhost:27017/worker_genius'
 const connect = mongoose.createConnection(host, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

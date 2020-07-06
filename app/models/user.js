@@ -413,6 +413,22 @@ UserSchema.methods.generateToken = (user, cb) => {
   // params = JSON.stringify(params)
   // console.log(params)
   // console.log(token)
+  // user.token = jwt.sign({
+  //   user_type: user.user_type,
+  //   skills: user.skills,
+  //   list_certifications: user.list_certifications,
+  //   list_replied_job: user.list_replied_job,
+  //   list_posted_job: user.list_posted_job,
+  //   list_bills: user.list_bills,
+  //   list_works: user.list_works,
+  //   list_watched_candidates: user.list_watched_candidates,
+  //   _id: user._id,
+  //   firstname: user.firstname,
+  //   email: user.email,
+  //   username: user.username,
+  //   creation_date: user.creation_date,
+  //   slug: user.slug
+  // }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
   user.token = jwt.sign({
     user_type: user.user_type,
     skills: user.skills,

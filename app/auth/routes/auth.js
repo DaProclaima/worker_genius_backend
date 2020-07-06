@@ -49,10 +49,7 @@ const UserModel = connect.model('User', User)
 router.get('/auth', verifyToken, (req, res) => {
   console.log('/auth hello')
   res.status(200).json({
-    _id: req.user._id,
-    email: req.user.email,
-    name: req.user.name,
-    lastname: req.user.lastname
+    'code': 200
   })
 })
 
@@ -140,7 +137,11 @@ router.post('/login', async (req, res) => {
     // }
     user.comparePassword(user, req.body.hash, (err, isMatch) => {
       if (!isMatch) {
-        return res.json({ loginSuccess: false, message: 'Authentication failed. Email or password is wrong.', err: err })
+        return res.json({
+          loginSuccess: false,
+          message: 'Authentication failed. Email or password is wrong.',
+          err: err
+        })
       }
       user.generateToken(user, (err, user) => {
         if (err) return res.status(400).send(err)
@@ -190,10 +191,10 @@ router.post('/token/extend', async (req, res) => {
           'message': err
         })
       } else {
-        // res.status(200).json({
-        //   'code': 200,
-        //   'result': result
-        // })
+        res.status(200).json({
+          'code': 200,
+          'result': result
+        })
       }
     })
     const authToken = req.headers['auth-token']
