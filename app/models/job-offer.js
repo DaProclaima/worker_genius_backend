@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // const auth = require('../auth')
 // const auth = new auth()
 const Schema = mongoose.Schema
-// const Mixed = Schema.Types.Mixed
+const Mixed = Schema.Types.Mixed
 // const ObjectId = Schema.ObjectId
 
 const JobOfferSchema = new Schema({
@@ -11,7 +11,7 @@ const JobOfferSchema = new Schema({
   level: String,
   slug: String,
   publisher: String, // todo id
-  list_candidates: [String], // candidate and hour they replied // todo id
+  list_candidates: Mixed, // candidate and hour they replied // todo id
   street__num_name: String,
   city_name: String,
   department: String,
@@ -31,8 +31,8 @@ const JobOfferSchema = new Schema({
   creation_date: { type: Date, default: Date.now },
   last_update: Date
 }, {
-  collection: 'job_offers', 
-  minimize: false, 
+  collection: 'job_offers',
+  minimize: false,
   versionKey: false
 }).set('toJSON', {
   transform: (doc, ret) => {
@@ -63,7 +63,7 @@ JobOfferSchema.methods.setSlug = function (id) {
 }
 
 JobOfferSchema.methods.getSlug = function () {
-  return this.slug 
+  return this.slug
 }
 
 JobOfferSchema.methods.setPublisher = function (publisher) {
@@ -73,7 +73,7 @@ JobOfferSchema.methods.setPublisher = function (publisher) {
 }
 
 JobOfferSchema.methods.getPublisher = function () {
-  return this.publisher 
+  return this.publisher
 }
 
 JobOfferSchema.methods.addOneCandidate = function (candidate) {
@@ -102,7 +102,7 @@ JobOfferSchema.methods.setStreetName = function (streetName) {
 }
 
 JobOfferSchema.methods.getStreetName = function () {
-  return this.street__num_name 
+  return this.street__num_name
 }
 
 JobOfferSchema.methods.setCityName = function (cityName) {
@@ -118,7 +118,7 @@ JobOfferSchema.methods.setCityName = function (cityName) {
 }
 
 JobOfferSchema.methods.getCityName = function () {
-  return this.city_name 
+  return this.city_name
 }
 
 JobOfferSchema.methods.setDepartment = function (department) {
@@ -134,7 +134,7 @@ JobOfferSchema.methods.setDepartment = function (department) {
 }
 
 JobOfferSchema.methods.getDepartment = function () {
-  return this.department 
+  return this.department
 }
 
 JobOfferSchema.methods.setCountry = function (country) {
@@ -150,7 +150,7 @@ JobOfferSchema.methods.setCountry = function (country) {
 }
 
 JobOfferSchema.methods.getCountry = function () {
-  return this.country 
+  return this.country
 }
 
 JobOfferSchema.methods.setCompanyName = function (companyName) {
@@ -166,7 +166,7 @@ JobOfferSchema.methods.setCompanyName = function (companyName) {
 }
 
 JobOfferSchema.methods.getCompanyName = function () {
-  return this.company_name 
+  return this.company_name
 }
 
 JobOfferSchema.methods.setDescription = function (description) {
@@ -182,7 +182,7 @@ JobOfferSchema.methods.setDescription = function (description) {
 }
 
 JobOfferSchema.methods.getDescription = function () {
-  return this.slug 
+  return this.slug
 }
 
 JobOfferSchema.methods.initNumberViews = function () {
@@ -281,7 +281,7 @@ JobOfferSchema.methods.setMissionLength = function (length) {
 }
 
 JobOfferSchema.methods.getMissionLength = function () {
-  return this.mission_length 
+  return this.mission_length
 }
 
 JobOfferSchema.methods.setLengthUnit = function (unit) {
@@ -307,7 +307,7 @@ JobOfferSchema.methods.setLengthUnit = function (unit) {
 }
 
 JobOfferSchema.methods.getLengthUnit = function () {
-  return this.length_unit 
+  return this.length_unit
 }
 
 JobOfferSchema.methods.setIsFulfilled = function (bool) {
@@ -353,7 +353,7 @@ JobOfferSchema.methods.setLastUpdate = function () {
 }
 
 JobOfferSchema.methods.getLastUpdate = function () {
-  return this.last_update 
+  return this.last_update
 }
 
 // UserSchema.methods.generateAuthToken = async function () {

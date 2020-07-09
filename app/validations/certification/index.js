@@ -2,10 +2,11 @@ const Joi = require('@hapi/joi')
 // const { Schema } = require('mongoose')
 const validationNew = data => {
   const schema = Joi.object().keys({
-    title: Joi.string().min(6).max(50).required(),
+    title: Joi.string().min(1).max(50).required(),
     timeout: Joi.number().integer().min(0).required(),
     description: Joi.string().min(6).max(1000).required(),
     project: Joi.string(),
+    difficulty: Joi.string(),
     list_prerequisites: Joi.array().has(String),
     picture: Joi.string().min(6).max(155),
     list_languages: Joi.array()

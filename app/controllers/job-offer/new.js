@@ -21,6 +21,7 @@ class New {
     this.app.post(`${this.apiPrefix}/job-offer/new`, async (req, res) => {
       try {
         console.log(req.body)
+
         const { error } = validationNew(req.body)
         if (error) {
           console.log(error)

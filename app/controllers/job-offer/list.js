@@ -19,8 +19,9 @@ class List {
    */
   middleware () {
     this.app.get(`${this.apiPrefix}/job-offer/list`, (req, res) => {
+      // console.log(req)
       try {
-        this.JobOfferModel.find({'title': req.body.title}, function (err, result) {
+        this.JobOfferModel.find({}, function (err, result) {
           if (err) {
             console.error(err)
 
@@ -29,6 +30,7 @@ class List {
               'message': err
             })
           } else {
+            console.log(result)
             res.status(200).json(result)
           }
         })

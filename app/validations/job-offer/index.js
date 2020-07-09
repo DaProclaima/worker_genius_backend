@@ -17,7 +17,7 @@ const validationNew = data => {
     list_applications: Joi.forbidden(),
     picture: Joi.optional(),
     salary_per_year: Joi.number().min(0).optional(),
-    contract_type: Joi.string().equal('CDI', 'CDD', 'Freelance', 'Alternance', 'Stage', 'Intérim').required(),
+    contract_type: Joi.string().equal('cdi', 'cdd', 'freelance', 'alternance', 'stage', 'interim').required(),
     mission_length: Joi.number().min(-1).max(1000).optional(),
     length_unit: Joi.string().equal('JOURS', 'MOIS', 'ANNÉES', 'N/A').optional(),
     is_fulfilled: Joi.forbidden(),
@@ -35,7 +35,7 @@ const validationEdit = data => {
     level: Joi.equal('JUNIOR', 'MEDIOR', 'SENIOR').optional(),
     slug: Joi.forbidden(),
     publisher: Joi.string(), // todo id
-    list_candidates: Joi.array().has(String), // todo id
+    list_candidates: Joi.any().optional(), // todo id
     street_num_name: Joi.string().min(1).max(155).optional(),
     department: Joi.string().min(1).max(155).optional(),
     city_name: Joi.string().min(1).max(155).optional(),

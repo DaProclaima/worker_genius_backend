@@ -17,10 +17,11 @@ const CertificationSchema = new Schema({
   creator_id: [String], // will take the Id of the creator,
   creation_date: { type: Date, default: Date.now },
   last_update: Date,
+  difficulty: String,
   is_granted: Boolean
 }, {
-  collection: 'certifications', 
-  minimize: false, 
+  collection: 'certifications',
+  minimize: false,
   versionKey: false
 }).set('toJSON', {
   transform: (doc, ret) => {
@@ -55,7 +56,7 @@ CertificationSchema.methods.setSlug = function () {
 }
 
 CertificationSchema.methods.getSlug = function () {
-  return this.slug 
+  return this.slug
 }
 
 CertificationSchema.methods.setTimeout = function (timeout) {
@@ -169,7 +170,7 @@ CertificationSchema.methods.setLastUpdate = function () {
 }
 
 CertificationSchema.methods.getLastUpdate = function () {
-  return this.last_update 
+  return this.last_update
 }
 
 module.exports = CertificationSchema

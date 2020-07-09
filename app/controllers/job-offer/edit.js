@@ -19,9 +19,11 @@ class Edit {
    * middleware
    */
   middleware () {
-    this.app.put(`${this.apiPrefix}/job-offer/edit/:slug`, async (req, res) => {
+    this.app.put(`${this.apiPrefix}/job-offer/edit/:id`, async (req, res) => {
+      console.log(req.params)
+      console.log(req.body)
       const updateObj = {}
-      const { slug } = req.params
+      const { id } = req.params
       const { body } = req
 
       try {
@@ -56,7 +58,7 @@ class Edit {
       console.log(updateObj)
       this.JobOfferModel.findOneAndUpdate(
         {
-          slug: slug
+          _id: id
         },
         {
           title: updateObj.title,

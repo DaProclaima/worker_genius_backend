@@ -17,11 +17,12 @@ class Show {
    * middleware
    */
   middleware () {
-    this.app.get(`${this.apiPrefix}/job-offer/show/:slug`, async (req, res) => {
-      const { slug } = req.params
+    this.app.get(`${this.apiPrefix}/job-offer/show/:id`, async (req, res) => {
+      console.log(req.params)
+      const { id } = req.params
       // res.status(200).json(req.params)
       let query = this.JobOfferModel.where({
-        slug: slug
+        _id: id
         // company_name: companyName
       })
       query.findOne(function (_, jobOffer) {
