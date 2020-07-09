@@ -1,13 +1,14 @@
 const express = require('express')
 const dotenv = require('dotenv')
 // const mongoose = require('mongoose')
+const cors = require('cors')
 const authRoute = require('./routes/auth')
 const app = express()
 dotenv.config()
 
 // Middleware
 app.use(express.json())
-
+app.use(cors())
 // Routes middleware
 app.use('/api/v1/user', authRoute, function (req, res) {
   res.sendStatus(500)

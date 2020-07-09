@@ -12,7 +12,6 @@ const { registerValidation, loginValidation } = require('../payload-validator/us
 dotenv.config()
 
 const host = process.env.DB_CONNECT || process.env.DB_CONNECT_LOCAL
-
 // connect to db
 const connect = mongoose.createConnection(host,
   {
@@ -57,10 +56,11 @@ router.post('/register', async (req, res) => {
   try {
     const { error } = registerValidation(req.body)
     if (error) {
+      console.log(error.details[0].message)
       return res.status(403).send(error.details[0].message)
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
 
   // Check if user is already in db
@@ -94,6 +94,7 @@ router.post('/register', async (req, res) => {
 
     await userModel.save(err => {
       if (err) {
+        console.log(err)
         return res.json({err: err})
       }
       // sendEmail(doc.email, doc.name, null, "welcome");
@@ -114,6 +115,7 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   // res.json({req: req.header})
+  console.log(req.body)
   const { error } = loginValidation(req.body)
   if (error) {
     console.log(error)
@@ -153,7 +155,7 @@ router.post('/login', async (req, res) => {
         //   loginSuccess: true,
         //   token: user.token
         // })
-        res.status(201).header('auth-token', user.token).send(user.token)
+        res.status(201).header('auth-token', user.token).send(user)
       })
     })
   })

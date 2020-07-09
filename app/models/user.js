@@ -16,13 +16,11 @@ const UserSchema = new Schema({
   },
   firstname: {
     type: String,
-    unique: true,
     required: true,
     maxlength: 255
   },
   lastname: {
     type: String,
-    unique: true,
     required: true,
     maxlength: 50
   },
@@ -440,6 +438,7 @@ UserSchema.methods.generateToken = (user, cb) => {
     list_watched_candidates: user.list_watched_candidates,
     _id: user._id,
     firstname: user.firstname,
+    lastname: user.lastname,
     email: user.email,
     username: user.username,
     creation_date: user.creation_date,

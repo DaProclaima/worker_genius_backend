@@ -20,8 +20,9 @@ class New {
   middleware () {
     this.app.post(`${this.apiPrefix}/job-offer/new`, async (req, res) => {
       try {
+        console.log(req.body)
         const { error } = validationNew(req.body)
-        if (error) { 
+        if (error) {
           console.log(error)
           return res.status(403).send(error.details[0].message)
         }
